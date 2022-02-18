@@ -30,7 +30,7 @@
 	</div>
 {:else} -->
 <div class="overflow-x-auto">
-	<table class="table table-compact w-full">
+	<table class="table-compact table w-full">
 		<thead>
 			<tr>
 				<th />
