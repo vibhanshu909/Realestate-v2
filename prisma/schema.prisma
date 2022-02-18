@@ -10,23 +10,22 @@ datasource db {
 }
 
 model User {
-  id String @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  v  Int    @map("__v")
-
+  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  v         Int      @map("__v")
   createdAt DateTime @default(now()) @db.Date
   updatedAt DateTime @updatedAt @db.Date
 
-  balance             BigInt
-  /// Multiple data types found: Double: 57.1%, Int32: 42.9% out of 7 sampled entries
-  contact             BigInt?
-  password            String
-  isAdmin             Boolean @default(false)
-  sites               Site[]
-  spent               BigInt
-  totalReceivedAmount BigInt
   username            String  @unique
+  password            String
+  contact             BigInt?
+  isAdmin             Boolean @default(false)
+  totalReceivedAmount BigInt
+  spent               BigInt
+  balance             BigInt
 
-  newHistory History[]
+  sites   Site[]
+  history History[]
+
   @@map("users")
 }
 
@@ -44,27 +43,32 @@ model History {
   type    HistoryType
   amount  BigInt
   balance BigInt
+  note    String?
 
   userId String @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("histories")
 }
 
 model Site {
-  id String @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  v  Int    @map("__v")
-
+  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  v         Int      @map("__v")
   createdAt DateTime @default(now()) @db.Date
   updatedAt DateTime @updatedAt @db.Date
 
+  name     String @unique
+  location String
+
   cost               BigInt
-  isDeleted          Boolean
-  location           String
-  manager            User    @relation(fields: [id], references: [id])
   managerSpentAmount BigInt
-  name               String  @unique
-  total              Json
+
+  total     Json
+  // TODO: Will delete this field in future after testing.
+  isDeleted Boolean
+
+  managerId String @db.ObjectId
+  manager   User   @relation(fields: [managerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   siteEntries SiteEntry[]
 
@@ -72,9 +76,8 @@ model Site {
 }
 
 model SiteEntry {
-  id String @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  v  Int    @map("__v")
-
+  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  v         Int      @map("__v")
   createdAt DateTime @default(now()) @db.Date
   updatedAt DateTime @updatedAt @db.Date
 
@@ -95,22 +98,21 @@ model SiteEntry {
   total              BigInt
 
   siteId String @db.ObjectId
-  site   Site   @relation(fields: [siteId], references: [id])
+  site   Site   @relation(fields: [siteId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("siteentries")
 }
 
 model Activity {
-  id String @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  v  Int    @map("__v")
-
+  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  v         Int      @map("__v")
   createdAt DateTime @default(now()) @db.Date
   updatedAt DateTime @updatedAt @db.Date
 
   activity  String
   arguments Json
   result    Json
+  username  String
 
-  username String
   @@map("activities")
 }

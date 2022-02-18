@@ -58,6 +58,7 @@ try {
 			},
 			{ session }
 		);
+
 		await users.updateMany(
 			{ balance: { $type: 16 } },
 			[{ $set: { balance: { $toLong: '$balance' } } }],
@@ -79,6 +80,19 @@ try {
 		);
 
 		const sites = db.collection('sites');
+
+		await sites.deleteMany({
+			$or: [{ manager: { $nin: await users.distinct('_id') } }, { isDeleted: true }]
+		});
+
+		await sites.updateMany(
+			{},
+			{
+				$rename: { manager: 'managerId' }
+			},
+			{ session }
+		);
+
 		await sites.updateMany({ cost: { $type: 16 } }, [{ $set: { cost: { $toLong: '$cost' } } }], {
 			multi: true,
 			session
@@ -90,6 +104,7 @@ try {
 		);
 
 		const siteEntries = db.collection('siteentries');
+
 		await siteEntries.updateMany(
 			{},
 			{
@@ -97,15 +112,20 @@ try {
 			},
 			{ session }
 		);
-		await sites.updateMany(
+
+		await siteEntries.updateMany(
 			{ managerSpentAmount: { $type: 16 } },
 			[{ $set: { managerSpentAmount: { $toLong: '$managerSpentAmount' } } }],
 			{ multi: true, session }
 		);
-		await sites.updateMany({ total: { $type: 16 } }, [{ $set: { total: { $toLong: '$total' } } }], {
-			multi: true,
-			session
-		});
+		await siteEntries.updateMany(
+			{ total: { $type: 16 } },
+			[{ $set: { total: { $toLong: '$total' } } }],
+			{
+				multi: true,
+				session
+			}
+		);
 
 		const activities = db.collection('activities');
 		const userIds = await users
