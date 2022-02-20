@@ -1,8 +1,8 @@
 import { prisma } from '$lib/db';
 import type { User } from '@prisma/client';
+import type { RequestHandler } from '@sveltejs/kit';
 
-/** @type {import('@sveltejs/kit').RequestHandler} */
-export async function get() {
+export const get: RequestHandler = async () => {
 	try {
 		return {
 			body: {
@@ -43,9 +43,10 @@ export async function get() {
 						_count: { select: { siteEntries: true } }
 					}
 				})
-			}
+			},
+			fallthrough: false
 		};
 	} catch (error) {
-		return { status: 500 };
+		return { status: 500, fallthrough: true };
 	}
-}
+};

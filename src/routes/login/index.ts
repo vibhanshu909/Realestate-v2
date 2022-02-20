@@ -7,10 +7,8 @@ import * as jwt from 'jsonwebtoken';
 export const post: RequestHandler = async ({ request }) => {
 	try {
 		const formData = await request.formData();
-		console.log(formData);
 		const username = formData.get('username') as string,
 			password = formData.get('password') as string;
-		console.log(username, password);
 		const user = await prisma.user.findFirst({ where: { username } });
 		if (user) {
 			const isPasswordCorrect = await bcrypt.compare(password, user.password);
@@ -28,6 +26,7 @@ export const post: RequestHandler = async ({ request }) => {
 					headers: {
 						location: '/',
 						'set-cookie': cookie.serialize('userToken', token, {
+							path: '*',
 							httpOnly: true,
 							secure: true,
 							maxAge: 60 * 60 * 24 * 365 // 1 year

@@ -46,7 +46,7 @@
 						</a>
 					</li>
 					<li><a href="/">Settings</a></li>
-					<li><a href="/">Logout</a></li>
+					<li><a href="/logout">Logout</a></li>
 				</ul>
 			</div>
 		</div>
