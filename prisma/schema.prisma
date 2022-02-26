@@ -10,7 +10,7 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   v         Int      @map("__v")
   createdAt DateTime @default(now()) @db.Date
   updatedAt DateTime @updatedAt @db.Date
@@ -35,7 +35,7 @@ enum HistoryType {
 }
 
 model History {
-  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   v         Int      @map("__v")
   createdAt DateTime @default(now()) @db.Date
   updatedAt DateTime @updatedAt @db.Date
@@ -52,7 +52,7 @@ model History {
 }
 
 model Site {
-  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   v         Int      @map("__v")
   createdAt DateTime @default(now()) @db.Date
   updatedAt DateTime @updatedAt @db.Date
@@ -63,7 +63,7 @@ model Site {
   cost               BigInt
   managerSpentAmount BigInt
 
-  total     Json
+  total     SitesTotal
   // TODO: Will delete this field in future after testing.
   isDeleted Boolean
 
@@ -76,22 +76,22 @@ model Site {
 }
 
 model SiteEntry {
-  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   v         Int      @map("__v")
   createdAt DateTime @default(now()) @db.Date
   updatedAt DateTime @updatedAt @db.Date
 
-  mistri Json
-  labour Json
-  eit    Json
-  morang Json
-  baalu  Json
-  githi  Json
-  cement Json
-  saria  Json
-  dust   Json
-  other  Json
-  other2 Json
+  mistri SiteEntryItem
+  labour SiteEntryItem
+  eit    SiteEntryItem
+  morang SiteEntryItem
+  baalu  SiteEntryItem
+  githi  SiteEntryItem
+  cement SiteEntryItem
+  saria  SiteEntryItem
+  dust   SiteEntryItem
+  other  SiteEntryItem
+  other2 SiteEntryItem
   note   String?
 
   managerSpentAmount BigInt
@@ -103,8 +103,33 @@ model SiteEntry {
   @@map("siteentries")
 }
 
+type SiteEntryItem {
+  cost     BigInt
+  paid     Boolean
+  quantity BigInt
+}
+
+type SiteTotalItem {
+  cost     BigInt
+  quantity BigInt
+}
+
+type SitesTotal {
+  mistri SiteTotalItem
+  labour SiteTotalItem
+  eit    SiteTotalItem
+  morang SiteTotalItem
+  baalu  SiteTotalItem
+  githi  SiteTotalItem
+  cement SiteTotalItem
+  saria  SiteTotalItem
+  dust   SiteTotalItem
+  other  BigInt
+  other2 BigInt
+}
+
 model Activity {
-  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   v         Int      @map("__v")
   createdAt DateTime @default(now()) @db.Date
   updatedAt DateTime @updatedAt @db.Date

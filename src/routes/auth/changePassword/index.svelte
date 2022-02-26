@@ -1,13 +1,9 @@
 <script lang="ts">
-	import { session } from '$app/stores';
-	import Navbar from '$lib/Navbar.svelte';
-
 	export let errors: string[] = [];
 	let submitting = false;
 	let form: HTMLFormElement;
 </script>
 
-<Navbar user={$session} />
 <div class="pt-20">
 	{#each errors as error}
 		<div class="alert alert-error shadow-lg">

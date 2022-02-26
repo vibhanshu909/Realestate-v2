@@ -26,7 +26,7 @@ export const post: RequestHandler = async ({ request }) => {
 					headers: {
 						location: '/',
 						'set-cookie': cookie.serialize('userToken', token, {
-							path: '*',
+							path: '/',
 							httpOnly: true,
 							secure: true,
 							maxAge: 60 * 60 * 24 * 365 // 1 year

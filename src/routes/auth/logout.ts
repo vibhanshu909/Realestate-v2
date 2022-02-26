@@ -5,8 +5,14 @@ export const get: RequestHandler = async () => {
 	return {
 		status: 302,
 		headers: {
-			location: '/login',
-			'set-cookie': cookie.serialize('userToken', '', { maxAge: 0, expires: new Date(0) })
+			location: '/auth/login',
+			'set-cookie': cookie.serialize('userToken', '', {
+				path: '/',
+				httpOnly: true,
+				secure: true,
+				sameSite: 'lax',
+				maxAge: -1
+			})
 		}
 	};
 };
