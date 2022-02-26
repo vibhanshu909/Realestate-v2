@@ -11,7 +11,7 @@
 	<main class="min-w-full">
 		<slot />
 	</main>
-	<footer class="p-5">
+	<footer class="bg-base-200 p-5">
 		<h1 class="text-center">&copy; {new Date().getFullYear()} Codemitter Technology Pvt. Ltd.</h1>
 	</footer>
 </div>
