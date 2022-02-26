@@ -2,13 +2,15 @@
 	export let errors: string[] = [];
 	let submitting = false;
 	let form: HTMLFormElement;
+
+	export let contact: number;
 </script>
 
 <div class="hero min-h-screen bg-base-200">
 	<div class="hero-content w-full flex-col lg:flex-row-reverse">
 		<div class="card w-full max-w-sm flex-shrink-0 bg-base-100 shadow-2xl">
 			<div class="card-body">
-				<h1 class="text-center text-2xl">Login</h1>
+				<h1 class="text-center text-2xl">Change Contact</h1>
 				{#if errors.length}
 					<div class="my-2 text-error">
 						{#each errors as error}
@@ -37,36 +39,33 @@
 					bind:this={form}
 					on:submit|preventDefault={() => {
 						submitting = true;
-						form.submit();
+						if (String(contact).length === 10) {
+							form.submit();
+						} else {
+							errors.push('Contact number must be 10 digits');
+							submitting = false;
+						}
 					}}
 				>
 					<fieldset disabled={submitting}>
 						<div class="form-control">
-							<label class="label" for="username">
-								<span class="label-text">Username</span>
+							<label class="label" for="contact">
+								<span class="label-text">Contact</span>
 							</label>
 							<input
-								name="username"
-								type="text"
-								placeholder="username"
+								name="contact"
+								type="number"
+								placeholder="contact"
 								class="input input-bordered"
 								required
-							/>
-						</div>
-						<div class="form-control">
-							<label class="label" for="password">
-								<span class="label-text">Password</span>
-							</label>
-							<input
-								name="password"
-								type="password"
-								placeholder="password"
-								class="input input-bordered"
-								required
+								bind:value={contact}
+								minlength="10"
+								maxlength="10"
 							/>
 						</div>
 						<div class="form-control mt-6">
-							<button class="btn btn-primary" class:loading={submitting} type="submit">Login</button
+							<button class="btn btn-primary" class:loading={submitting} type="submit"
+								>Submit</button
 							>
 						</div>
 					</fieldset>

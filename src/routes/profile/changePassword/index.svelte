@@ -2,13 +2,15 @@
 	export let errors: string[] = [];
 	let submitting = false;
 	let form: HTMLFormElement;
+
+	let newPassword: number, newPassword2: number;
 </script>
 
 <div class="hero min-h-screen bg-base-200">
 	<div class="hero-content w-full flex-col lg:flex-row-reverse">
 		<div class="card w-full max-w-sm flex-shrink-0 bg-base-100 shadow-2xl">
 			<div class="card-body">
-				<h1 class="text-center text-2xl">Login</h1>
+				<h1 class="text-center text-2xl">Change Password</h1>
 				{#if errors.length}
 					<div class="my-2 text-error">
 						{#each errors as error}
@@ -37,36 +39,57 @@
 					bind:this={form}
 					on:submit|preventDefault={() => {
 						submitting = true;
-						form.submit();
+						if (newPassword !== newPassword2) {
+							errors.push('New Passwords do not match');
+							submitting = false;
+							return;
+						} else {
+							form.submit();
+						}
 					}}
 				>
 					<fieldset disabled={submitting}>
 						<div class="form-control">
-							<label class="label" for="username">
-								<span class="label-text">Username</span>
+							<label class="label" for="currentPassword">
+								<span class="label-text">Current Password</span>
 							</label>
 							<input
-								name="username"
-								type="text"
-								placeholder="username"
+								name="currentPassword"
+								type="password"
+								placeholder="Current Password"
 								class="input input-bordered"
 								required
 							/>
 						</div>
 						<div class="form-control">
-							<label class="label" for="password">
-								<span class="label-text">Password</span>
+							<label class="label" for="newPassword">
+								<span class="label-text">New Password</span>
 							</label>
 							<input
-								name="password"
+								name="newPassword"
 								type="password"
-								placeholder="password"
+								placeholder="New Password"
 								class="input input-bordered"
 								required
+								bind:value={newPassword}
+							/>
+						</div>
+						<div class="form-control">
+							<label class="label" for="newPassword2">
+								<span class="label-text">Confirm New Password</span>
+							</label>
+							<input
+								name="newPassword2"
+								type="password"
+								placeholder="Confirm New Password"
+								class="input input-bordered"
+								required
+								bind:value={newPassword2}
 							/>
 						</div>
 						<div class="form-control mt-6">
-							<button class="btn btn-primary" class:loading={submitting} type="submit">Login</button
+							<button class="btn btn-primary" class:loading={submitting} type="submit"
+								>Submit</button
 							>
 						</div>
 					</fieldset>

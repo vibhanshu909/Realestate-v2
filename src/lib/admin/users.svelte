@@ -1,34 +1,17 @@
 <script lang="ts">
+	import formatDate from '$lib/date';
 	import { kconstants } from '$lib/kconstants';
+	import { toCurrency } from '$lib/toCurrency';
 	import type { User } from '@prisma/client';
 
 	export let users: (User & {
 		_count: {
 			sites: number;
 		};
-		totalSitesCost: BigInt;
+		totalSitesCost: bigint;
 	})[];
-	// let loading = true;
-	// onMount(async () => {
-	// 	try {
-	// 		users = (await fetch('api/users').then<{ data: User[] }>((res) => res.json())).data;
-	// 	} catch (error) {
-	// 		console.error(error);
-	// 	} finally {
-	// 		loading = false;
-	// 	}
-	// });
 </script>
 
-<!-- {#if loading}
-	<div class="hero min-h-screen bg-base-200">
-		<div class="text-center hero-content">
-			<div class="max-w-md">
-				<h1 class="text-xl font-bold btn btn-disabled loading">loading</h1>
-			</div>
-		</div>
-	</div>
-{:else} -->
 <div class="overflow-x-auto">
 	<table class="table-compact table w-full">
 		<thead>
@@ -55,16 +38,17 @@
 					totalSitesCost,
 					totalReceivedAmount
 				} = user}
+				{@const balance = BigInt(totalReceivedAmount) - BigInt(spent)}
 				<tr>
 					<th class="bg-base-100">{index + 1}</th>
-					<td>{createdAt}</td>
+					<td>{formatDate(createdAt)}</td>
 					<td>{username}</td>
 					<td><a href={'tel:' + contact}>{contact}</a></td>
 					<td>{totalSites}</td>
-					<td>{totalSitesCost}</td>
-					<td>{totalReceivedAmount}</td>
-					<td>{spent}</td>
-					<td>{totalReceivedAmount - spent}</td>
+					<td>{toCurrency(totalSitesCost)}</td>
+					<td>{toCurrency(totalReceivedAmount)}</td>
+					<td>{toCurrency(spent)}</td>
+					<td class={balance < 0 ? 'text-error' : 'text-success'}>{toCurrency(balance)}</td>
 				</tr>
 			{/each}
 		</tbody>
@@ -83,4 +67,3 @@
 		</tfoot>
 	</table>
 </div>
-<!-- {/if} -->

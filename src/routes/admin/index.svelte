@@ -8,7 +8,7 @@
 		_count: {
 			sites: number;
 		};
-		totalSitesCost: BigInt;
+		totalSitesCost: bigint;
 	})[];
 </script>
 

@@ -11,7 +11,7 @@ export const get: RequestHandler = async () => {
 					_count: {
 						sites: number;
 					};
-					totalSitesCost: BigInt;
+					totalSitesCost: bigint;
 				})[]
 			>(async (resolve, reject) => {
 				try {

@@ -9,10 +9,10 @@
 		{#each activities as activity}
 			<li>
 				<span>•</span>
-				<span class="text-lg capitalize text-success"> {activity.username}</span>
+				<span class="text-lg capitalize text-success"> {activity.username} </span>
 				performed
 				<span class="text-lg text-success"> {activity.activity}</span>
-				<span>{formatDistance(new Date(), new Date())}</span>
+				<span>{formatDistance(new Date(activity.createdAt), new Date())}</span> ago
 			</li>
 		{/each}
 	</ul>
