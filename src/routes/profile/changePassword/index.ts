@@ -1,6 +1,6 @@
 import { prisma } from '$lib/db';
 import type { RequestHandler } from '@sveltejs/kit';
-import * as bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 
 export const post: RequestHandler = async ({ request, locals }) => {
 	try {
@@ -33,7 +33,7 @@ export const post: RequestHandler = async ({ request, locals }) => {
 					}
 				};
 			} else {
-				return { status: 400, errors: ['Invalid Password'] };
+				return { status: 400, body: { errors: ['Current password is invalid'] } };
 			}
 		} else {
 			return { status: 400, body: { errors: ['User does not exists'] } };

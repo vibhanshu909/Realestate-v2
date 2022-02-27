@@ -1,8 +1,8 @@
 import { prisma } from '$lib/db';
 import type { IToken } from '$lib/types';
 import type { GetSession, Handle } from '@sveltejs/kit';
-import * as cookie from 'cookie';
-import * as jwt from 'jsonwebtoken';
+import cookie from 'cookie';
+import jwt from 'jsonwebtoken';
 
 const resetCookie = cookie.serialize('userToken', '', {
 	path: '/',

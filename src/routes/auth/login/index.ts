@@ -1,8 +1,8 @@
 import { prisma } from '$lib/db';
 import type { RequestHandler } from '@sveltejs/kit';
-import * as bcrypt from 'bcryptjs';
-import * as cookie from 'cookie';
-import * as jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import cookie from 'cookie';
+import jwt from 'jsonwebtoken';
 
 export const post: RequestHandler = async ({ request }) => {
 	try {

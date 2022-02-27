@@ -1,5 +1,5 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import * as cookie from 'cookie';
+import cookie from 'cookie';
 
 export const get: RequestHandler = async () => {
 	return {
