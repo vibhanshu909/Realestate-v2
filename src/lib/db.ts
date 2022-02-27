@@ -1,5 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import pkg from '@prisma/client';
 
+const { PrismaClient } = pkg;
 BigInt.prototype['toJSON'] = function () {
 	return this.toString();
 };
