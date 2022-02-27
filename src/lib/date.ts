@@ -1,4 +1,4 @@
-export const formatDate = (args: any) => {
+export const formatDate = (args: number | string | Date) => {
 	return new Date(args).toLocaleDateString('hi-IN', {
 		weekday: 'long',
 		year: 'numeric',

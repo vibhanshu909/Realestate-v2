@@ -32,6 +32,8 @@ export const get: RequestHandler = async () => {
 						})
 					);
 				} catch (error) {
+					console.error(error);
+
 					reject(error);
 				}
 			})

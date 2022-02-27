@@ -53,6 +53,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 				});
 			}
 		} catch (e) {
+			console.error(e);
 			return new Response(null, {
 				status: 302,
 				headers: {

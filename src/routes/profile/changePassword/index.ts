@@ -36,10 +36,11 @@ export const post: RequestHandler = async ({ request, locals }) => {
 				return { status: 400, errors: ['Invalid Password'] };
 			}
 		} else {
-			console.log('inside 400 error block');
 			return { status: 400, body: { errors: ['User does not exists'] } };
 		}
 	} catch (error) {
+		console.error(error);
+
 		return { status: 500, body: { errors: ['Some unexpected error occurred!'] } };
 	}
 };
