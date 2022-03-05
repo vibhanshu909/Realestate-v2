@@ -2,10 +2,17 @@
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = async ({ session }) => {
-		if (session && session.isAdmin) {
+		console.log(session);
+		if (session) {
+			if (session.isAdmin) {
+				return {
+					status: 302,
+					redirect: '/admin'
+				};
+			}
 			return {
 				status: 302,
-				redirect: '/admin'
+				redirect: '/manager'
 			};
 		} else {
 			return {

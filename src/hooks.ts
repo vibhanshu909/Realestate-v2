@@ -12,11 +12,19 @@ const resetCookie = cookie.serialize('userToken', '', {
 	maxAge: -1
 });
 
+const redirectToLogin = new Response(null, {
+	status: 302,
+	headers: {
+		location: '/auth/login',
+		'set-cookie': resetCookie
+	}
+});
+
 export const handle: Handle = async ({ event, resolve }) => {
 	const cookies =
 		event.request.headers.get('cookie') && cookie.parse(event.request.headers.get('cookie'));
 
-	if (event.url.pathname.includes('/auth/')) {
+	if (event.url.pathname.startsWith('/auth/')) {
 		return await resolve(event);
 	} else if (cookies && 'userToken' in cookies) {
 		try {
@@ -40,36 +48,43 @@ export const handle: Handle = async ({ event, resolve }) => {
 					sameSite: 'lax',
 					maxAge: 60 * 60 * 24 * 365 // 1 year
 				});
-				const response = await resolve(event);
-				response.headers.set('set-cookie', newCookie);
-				return response;
-			} else {
-				return new Response(null, {
-					status: 302,
-					headers: {
-						location: '/auth/login',
-						'set-cookie': resetCookie
+				console.log(event.url.pathname);
+				if (
+					(event.url.pathname.startsWith('/admin') && user.isAdmin) ||
+					(event.url.pathname.startsWith('/manager') && !user.isAdmin) ||
+					event.url.pathname === '/'
+				) {
+					const response = await resolve(event);
+					response.headers.set('set-cookie', newCookie);
+					return response;
+				} else {
+					if (user.isAdmin) {
+						new Response(null, {
+							status: 302,
+							headers: {
+								location: '/admin',
+								'set-cookie': resetCookie
+							}
+						});
+					} else {
+						new Response(null, {
+							status: 302,
+							headers: {
+								location: '/manager',
+								'set-cookie': resetCookie
+							}
+						});
 					}
-				});
+				}
+			} else {
+				return redirectToLogin;
 			}
 		} catch (e) {
 			console.error(e);
-			return new Response(null, {
-				status: 302,
-				headers: {
-					location: '/auth/login',
-					'set-cookie': resetCookie
-				}
-			});
+			return redirectToLogin;
 		}
 	} else {
-		return new Response(null, {
-			status: 302,
-			headers: {
-				location: '/auth/login',
-				'set-cookie': resetCookie
-			}
-		});
+		return redirectToLogin;
 	}
 };
 
