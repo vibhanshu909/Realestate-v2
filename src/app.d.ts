@@ -6,7 +6,7 @@ import type { User } from '@prisma/client';
 // for information about these interfaces
 declare namespace App {
 	interface Locals {
-		user?: User;
+		user?: Omit<User, 'password'>;
 	}
 
 	interface Platform {

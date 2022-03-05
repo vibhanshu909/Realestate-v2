@@ -2,7 +2,6 @@
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = async ({ session }) => {
-		console.log(session);
 		if (session) {
 			if (session.isAdmin) {
 				return {

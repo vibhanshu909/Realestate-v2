@@ -31,8 +31,29 @@ export const handle: Handle = async ({ event, resolve }) => {
 			const { id: userId } = jwt.verify(cookies.userToken, process.env.SECRET, {
 				maxAge: '1y'
 			}) as IToken;
-			const user = await prisma.user.findFirst({ where: { id: userId } });
+			const user = await prisma.user.findFirst({
+				where: { id: userId },
+				select: {
+					id: true,
+					username: true,
+					isAdmin: true,
+					totalReceivedAmount: true,
+					spent: true,
+					balance: true,
+					contact: true,
+					createdAt: true,
+					updatedAt: true
+				}
+			});
 			if (user) {
+				if (
+					(event.url.pathname.startsWith('/admin') && !user.isAdmin) ||
+					(event.url.pathname.startsWith('/manager') && user.isAdmin)
+				) {
+					return new Response('Not Found', {
+						status: 404
+					});
+				}
 				event.locals.user = user;
 				const token = jwt.sign(
 					{ id: user.id, username: user.username, isAdmin: user.isAdmin },
@@ -48,34 +69,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 					sameSite: 'lax',
 					maxAge: 60 * 60 * 24 * 365 // 1 year
 				});
-				console.log(event.url.pathname);
-				if (
-					(event.url.pathname.startsWith('/admin') && user.isAdmin) ||
-					(event.url.pathname.startsWith('/manager') && !user.isAdmin) ||
-					event.url.pathname === '/'
-				) {
-					const response = await resolve(event);
-					response.headers.set('set-cookie', newCookie);
-					return response;
-				} else {
-					if (user.isAdmin) {
-						new Response(null, {
-							status: 302,
-							headers: {
-								location: '/admin',
-								'set-cookie': resetCookie
-							}
-						});
-					} else {
-						new Response(null, {
-							status: 302,
-							headers: {
-								location: '/manager',
-								'set-cookie': resetCookie
-							}
-						});
-					}
-				}
+				const response = await resolve(event);
+				response.headers.set('set-cookie', newCookie);
+				return response;
 			} else {
 				return redirectToLogin;
 			}
