@@ -37,7 +37,7 @@
 	<div class="stat">
 		<div class="stat-title">Balance (₹)</div>
 		<div
-			class={`stat-value -lg:text-base ${BigInt(user.balance) < 0n ? 'text-error' : 'text-sucess'}`}
+			class={`stat-value -lg:text-base ${BigInt(user.balance) < 0 ? 'text-error' : 'text-sucess'}`}
 		>
 			{toCurrency(user.balance)}
 		</div>
