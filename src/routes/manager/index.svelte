@@ -19,8 +19,7 @@
 </script>
 
 <div
-	data-theme="business"
-	class="stats mx-1 my-2 grid grid-flow-row grid-cols-2 grid-rows-2 text-primary-content shadow ring-2 md:grid-cols-4 md:grid-rows-1"
+	class="stats mx-1 my-2 grid grid-flow-row grid-cols-2 grid-rows-2 shadow ring-2 md:grid-cols-4 md:grid-rows-1"
 >
 	<div class="stat">
 		<div class="stat-title">Sites</div>

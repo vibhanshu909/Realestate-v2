@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 </script>
 
-<div>
+<div class="h-full">
 	<div class="btn-group">
 		<a href="/admin" class="btn md:btn-wide" class:btn-active={$page.url.pathname === '/admin'}
 			>Users</a

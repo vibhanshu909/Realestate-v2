@@ -11,7 +11,7 @@ datasource db {
 
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  v         Int      @map("__v")
+  v         Int?     @map("__v")
   createdAt DateTime @default(now()) @db.Date
   updatedAt DateTime @updatedAt @db.Date
 
@@ -20,7 +20,7 @@ model User {
   contact             BigInt?
   isAdmin             Boolean @default(false)
   totalReceivedAmount BigInt
-  spent               BigInt
+  spent               BigInt  @default(0)
   balance             BigInt
 
   sites   Site[]
@@ -36,7 +36,7 @@ enum HistoryType {
 
 model History {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  v         Int      @map("__v")
+  v         Int?     @map("__v")
   createdAt DateTime @default(now()) @db.Date
   updatedAt DateTime @updatedAt @db.Date
 
@@ -53,7 +53,7 @@ model History {
 
 model Site {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  v         Int      @map("__v")
+  v         Int?     @map("__v")
   createdAt DateTime @default(now()) @db.Date
   updatedAt DateTime @updatedAt @db.Date
 
@@ -77,7 +77,7 @@ model Site {
 
 model SiteEntry {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  v         Int      @map("__v")
+  v         Int?     @map("__v")
   createdAt DateTime @default(now()) @db.Date
   updatedAt DateTime @updatedAt @db.Date
 
@@ -130,7 +130,7 @@ type SitesTotal {
 
 model Activity {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  v         Int      @map("__v")
+  v         Int?     @map("__v")
   createdAt DateTime @default(now()) @db.Date
   updatedAt DateTime @updatedAt @db.Date
 

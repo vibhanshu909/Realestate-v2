@@ -1,5 +1,6 @@
 <script>
 	import { navigating, session } from '$app/stores';
+	import { createPortal } from '$lib/actions';
 	import Navbar from '$lib/Navbar.svelte';
 	import '../app.css';
 </script>
@@ -11,7 +12,7 @@
 	<main class="min-w-full">
 		<slot />
 	</main>
-	<footer data-theme="halloween" class="bg-base-100 p-5">
+	<footer class="bg-base-300 p-5">
 		<h1 class="text-center">&copy; {new Date().getFullYear()} Codemitter Technology Pvt. Ltd.</h1>
 	</footer>
 	<div class="modal" class:modal-open={$navigating}>
@@ -19,4 +20,5 @@
 			<button class="btn loading h-10 w-full">Loading</button>
 		</div>
 	</div>
+	<div class="portal" use:createPortal={'modal'} />
 </div>

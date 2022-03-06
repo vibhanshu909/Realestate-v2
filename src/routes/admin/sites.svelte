@@ -1,4 +1,5 @@
 <script context="module" lang="ts">
+	import Layout from '$lib/admin/layout.svelte';
 	import Sites from '$lib/admin/sites.svelte';
 	import type { Site } from '@prisma/client';
 </script>
@@ -14,4 +15,6 @@
 	})[];
 </script>
 
-<Sites {sites} />
+<Layout>
+	<Sites {sites} />
+</Layout>

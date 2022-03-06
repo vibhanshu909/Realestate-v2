@@ -3,6 +3,7 @@
 	import { kconstants } from '$lib/kconstants';
 	import { toCurrency } from '$lib/toCurrency';
 	import type { User } from '@prisma/client';
+	import UserActions from './userActions.svelte';
 
 	export let users: (User & {
 		_count: {
@@ -28,7 +29,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each users as user, index}
+			{#each users as user (user.id)}
 				{@const {
 					createdAt,
 					username,
@@ -40,7 +41,9 @@
 				} = user}
 				{@const balance = BigInt(totalReceivedAmount) - BigInt(spent)}
 				<tr>
-					<th class="bg-base-100">{index + 1}</th>
+					<th class="bg-base-100 p-0">
+						<UserActions {user} />
+					</th>
 					<td>{formatDate(createdAt)}</td>
 					<td>{username}</td>
 					<td><a href={'tel:' + contact}>{contact}</a></td>
