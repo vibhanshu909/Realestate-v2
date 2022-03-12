@@ -3,13 +3,6 @@
 	import { kconstants } from '$lib/kconstants';
 	import { toCurrency } from '$lib/toCurrency';
 	import type { Site, User } from '@prisma/client';
-	import type { Load } from '@sveltejs/kit';
-
-	export const load: Load = async ({ props }) => {
-		return {
-			props
-		};
-	};
 </script>
 
 <script lang="ts">
