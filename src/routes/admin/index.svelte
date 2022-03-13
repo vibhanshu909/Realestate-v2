@@ -18,8 +18,8 @@
 		<Users {users} />
 
 		<a
-			href="/admin/user/create"
-			class="btn btn-circle btn-primary btn-lg sticky top-[83%] left-full mr-2"
+			href="/admin/manager/create"
+			class="btn btn-primary btn-circle btn-lg sticky top-[83%] left-full mr-2"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"

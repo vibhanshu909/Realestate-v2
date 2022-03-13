@@ -1,9 +1,4 @@
-<script lang="ts" context="module">
-</script>
-
 <script lang="ts">
-	import { kconstants } from '$lib/kconstants';
-
 	export let username: string;
 	export let errors: string[] = [];
 	let submitting = false;
@@ -14,7 +9,7 @@
 	<div class="hero-content w-full flex-col lg:flex-row-reverse">
 		<div class="card w-full max-w-sm flex-shrink-0 bg-base-100 shadow-2xl">
 			<div class="card-body">
-				<h1 class="text-center text-2xl">Credit</h1>
+				<h1 class="text-center text-2xl">Change Password</h1>
 				<p class="text-center text-sm">({username})</p>
 				{#if errors?.length}
 					<div class="my-2 text-error">
@@ -44,36 +39,44 @@
 					bind:this={form}
 					on:submit|preventDefault={() => {
 						submitting = true;
-						form.submit();
+						const formData = new FormData(form);
+						if (formData.get('newPassword') !== formData.get('confirmNewPassword')) {
+							errors.push('Passwords do not match');
+							submitting = false;
+							return;
+						} else {
+							form.submit();
+						}
 					}}
 				>
 					<fieldset disabled={submitting}>
 						<div class="form-control">
-							<label class="label" for="amount">
-								<span class="label-text">Amount({kconstants.currencySymbol})</span>
+							<label class="label" for="newPassword">
+								<span class="label-text">New Password</span>
 							</label>
 							<input
-								name="amount"
-								type="text"
-								placeholder="amount"
+								name="newPassword"
+								type="password"
+								placeholder="New Password"
 								class="input input-bordered"
 								required
 							/>
 						</div>
 						<div class="form-control">
-							<label class="label" for="note">
-								<span class="label-text">Note</span>
+							<label class="label" for="confirmNewPassword">
+								<span class="label-text">Confirm Password</span>
 							</label>
 							<input
-								name="note"
-								type="text"
-								placeholder="note"
+								name="confirmNewPassword"
+								type="password"
+								placeholder="Confirm New Password"
 								class="input input-bordered"
 								required
 							/>
 						</div>
 						<div class="form-control mt-6">
-							<button class="btn btn-primary" class:loading={submitting} type="submit">Login</button
+							<button class="btn btn-primary" class:loading={submitting} type="submit"
+								>Submit</button
 							>
 						</div>
 					</fieldset>

@@ -4,7 +4,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 
 export const get: RequestHandler = async ({ params }) => {
 	const user = await prisma.user.findFirst({
-		where: { id: params.userId },
+		where: { id: params?.managerId },
 		select: {
 			username: true
 		}
@@ -16,8 +16,8 @@ export const get: RequestHandler = async ({ params }) => {
 	};
 };
 
-export const post: RequestHandler = async ({ params, request, locals }) => {
-	if (params?.userId) {
+export const post: RequestHandler = async ({ params, request }) => {
+	if (params?.managerId) {
 		try {
 			const formData = await request.formData();
 			const amount = BigInt(formData.get('amount') as string);
@@ -29,20 +29,23 @@ export const post: RequestHandler = async ({ params, request, locals }) => {
 					}
 				};
 			}
-			const note = formData.get('note') as string;
+			const note = formData.get('note') as string | null;
+			const manager = await prisma.user.findFirst({
+				where: { id: params.managerId }
+			});
 			const balance =
 				amount +
 				BigInt(
 					(
 						await prisma.history.findFirst({
-							where: { userId: params.userId },
+							where: { userId: params.managerId },
 							orderBy: { createdAt: 'desc' }
 						})
 					)?.balance ?? 0
 				);
 			await prisma.history.create({
 				data: {
-					userId: params.userId,
+					userId: params.managerId,
 					amount,
 					note,
 					type: HistoryType.CREDIT,
@@ -51,11 +54,11 @@ export const post: RequestHandler = async ({ params, request, locals }) => {
 			});
 			await prisma.user.update({
 				where: {
-					id: params.userId
+					id: params.managerId
 				},
 				data: {
-					totalReceivedAmount: locals?.user.totalReceivedAmount + amount,
-					balance: locals?.user.balance + amount
+					totalReceivedAmount: manager.totalReceivedAmount + amount,
+					balance: manager.balance + amount
 				}
 			});
 			return {
@@ -77,7 +80,7 @@ export const post: RequestHandler = async ({ params, request, locals }) => {
 		return {
 			status: 500,
 			body: {
-				errors: ['User ID is required']
+				errors: ['Manager ID is required']
 			}
 		};
 	}

@@ -2,13 +2,13 @@ import { prisma } from '$lib/db';
 import type { RequestHandler } from '@sveltejs/kit';
 
 export const get: RequestHandler = async ({ params }) => {
-	if (params?.userId) {
+	if (params?.managerId) {
 		return {
 			status: 200,
 			body: {
 				transactions: await prisma.history.findMany({
 					where: {
-						userId: params.userId
+						userId: params.managerId
 					},
 					orderBy: {
 						createdAt: 'desc'
@@ -21,7 +21,7 @@ export const get: RequestHandler = async ({ params }) => {
 		return {
 			status: 500,
 			body: {
-				errors: ['User ID is required']
+				errors: ['Manager ID is required']
 			}
 		};
 	}
