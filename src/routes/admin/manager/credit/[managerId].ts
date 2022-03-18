@@ -1,5 +1,4 @@
-import { prisma } from '$lib/db';
-import { HistoryType } from '@prisma/client';
+import { HistoryType, prisma } from '$lib/db';
 import type { RequestHandler } from '@sveltejs/kit';
 
 export const get: RequestHandler = async ({ params }) => {

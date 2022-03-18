@@ -47,6 +47,7 @@
 							</label>
 							<input
 								name="username"
+								id="username"
 								type="text"
 								placeholder="username"
 								class="input input-bordered"
@@ -59,6 +60,7 @@
 							</label>
 							<input
 								name="password"
+								id="password"
 								type="password"
 								placeholder="password"
 								class="input input-bordered"
