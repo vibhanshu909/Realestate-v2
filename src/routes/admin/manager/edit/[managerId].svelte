@@ -52,6 +52,7 @@
 							</label>
 							<input
 								name="username"
+								id="username"
 								type="text"
 								placeholder="username"
 								class="input input-bordered"

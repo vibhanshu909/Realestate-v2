@@ -43,10 +43,11 @@
 					<fieldset disabled={submitting}>
 						<div class="form-control">
 							<label class="label" for="username">
-								<span class="label-text">Username</span>
+								<span class="label-text">Username*</span>
 							</label>
 							<input
 								name="username"
+								id="username"
 								type="text"
 								placeholder="username"
 								class="input input-bordered"
@@ -55,10 +56,11 @@
 						</div>
 						<div class="form-control">
 							<label class="label" for="password">
-								<span class="label-text">Password</span>
+								<span class="label-text">Password*</span>
 							</label>
 							<input
 								name="password"
+								id="password"
 								type="password"
 								placeholder="password"
 								class="input input-bordered"
@@ -67,13 +69,29 @@
 						</div>
 						<div class="form-control">
 							<label class="label" for="totalReceivedAmount">
-								<span class="label-text">Total Received Amount</span>
+								<span class="label-text">Total Received Amount*</span>
 							</label>
 							<input
 								name="totalReceivedAmount"
+								id="totalReceivedAmount"
 								type="number"
 								placeholder="total Received Amount"
 								class="input input-bordered"
+								value="0"
+								required
+							/>
+						</div>
+						<div class="form-control">
+							<label class="label" for="contact">
+								<span class="label-text">Contact(optional)</span>
+							</label>
+							<input
+								name="contact"
+								id="contact"
+								type="number"
+								placeholder="total Received Amount"
+								class="input input-bordered"
+								value="0"
 								required
 							/>
 						</div>

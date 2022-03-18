@@ -50,10 +50,11 @@
 					<fieldset disabled={submitting}>
 						<div class="form-control">
 							<label class="label" for="amount">
-								<span class="label-text">Amount({kconstants.currencySymbol})</span>
+								<span class="label-text">Amount({kconstants.currencySymbol})*</span>
 							</label>
 							<input
 								name="amount"
+								id="amount"
 								type="text"
 								placeholder="amount"
 								class="input input-bordered"
@@ -64,7 +65,13 @@
 							<label class="label" for="note">
 								<span class="label-text">Note</span>
 							</label>
-							<input name="note" type="text" placeholder="note" class="input input-bordered" />
+							<input
+								name="note"
+								id="note"
+								type="text"
+								placeholder="note"
+								class="input input-bordered"
+							/>
 						</div>
 						<div class="form-control mt-6">
 							<button class="btn btn-primary" class:loading={submitting} type="submit"

@@ -31,7 +31,7 @@
 			</div>
 			<ul class="menu bg-base-100">
 				<li>
-					<a href={`/admin/manager/credit/${user.id}`}>
+					<a href={`/admin/manager/credit/${user.id}`} class="manager-credit">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="h-6 w-6"
@@ -50,7 +50,7 @@
 					>
 				</li>
 				<li>
-					<a href={`/admin/manager/transaction/${user.id}`}>
+					<a href={`/admin/manager/transaction/${user.id}`} class="manager-history">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="h-6 w-6"
@@ -69,7 +69,7 @@
 					>
 				</li>
 				<li>
-					<a href={`/admin/manager/edit/${user.id}`}>
+					<a href={`/admin/manager/edit/${user.id}`} class="manager-edit">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="h-6 w-6"
@@ -88,7 +88,7 @@
 					>
 				</li>
 				<li>
-					<a href={`/admin/manager/changePassword/${user.id}`}>
+					<a href={`/admin/manager/changePassword/${user.id}`} class="manager-change-password">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="h-6 w-6"
@@ -107,7 +107,7 @@
 					>
 				</li>
 				<li>
-					<a href={`/admin/manager/delete/${user.id}`} rel="external">
+					<a href={`/admin/manager/delete/${user.id}`} rel="external" class="manager-delete">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="h-6 w-6"

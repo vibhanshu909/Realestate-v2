@@ -7,13 +7,15 @@ export const post: RequestHandler = async ({ request }) => {
 		const formData = await request.formData();
 		const username = formData.get('username') as string,
 			password = formData.get('password') as string,
-			totalReceivedAmount = BigInt((formData.get('totalReceivedAmount') || 0) as any);
+			totalReceivedAmount = BigInt((formData.get('totalReceivedAmount') || 0) as any),
+			contact = BigInt((formData.get('contact') || 0) as any);
 
 		if (username && password) {
 			await prisma.user.create({
 				data: {
 					username,
 					password: bcrypt.hashSync(password),
+					contact,
 					totalReceivedAmount,
 					balance: totalReceivedAmount
 				}

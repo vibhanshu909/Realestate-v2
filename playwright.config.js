@@ -3,14 +3,10 @@ import path from 'path';
 const config = {
 	globalSetup: path.resolve('./globalSetup.js'),
 	use: {
-		ignoreHTTPSErrors: true,
-		launchOptions: {
-			slowMo: 100
-		}
+		ignoreHTTPSErrors: true
 	},
 	webServer: {
 		command: 'npm run dev -- --https',
-		// command: 'npm run build && npm run preview',
 		port: 3000
 	}
 };

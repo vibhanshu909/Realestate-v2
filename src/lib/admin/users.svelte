@@ -41,7 +41,7 @@
 				} = user}
 				{@const balance = BigInt(totalReceivedAmount) - BigInt(spent)}
 				<tr>
-					<th class="bg-base-100 p-0">
+					<th class="actions bg-base-100 p-0">
 						<UserActions {user} />
 					</th>
 					<td>{formatDate(createdAt)}</td>
