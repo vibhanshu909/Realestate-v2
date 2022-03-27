@@ -1,6 +1,7 @@
 <script lang="ts" context="module">
 	import formatDate from '$lib/date';
 	import { kconstants } from '$lib/kconstants';
+	import ManagerSiteActions from '$lib/manager/siteActions.svelte';
 	import { toCurrency } from '$lib/toCurrency';
 	import type { Site, User } from '@prisma/client';
 </script>
@@ -19,15 +20,15 @@
 		<div class="stat-value -lg:text-base">{siteCount}</div>
 	</div>
 	<div class="stat">
-		<div class="stat-title">Received Amount (₹)</div>
+		<div class="stat-title">Received Amount ({kconstants.currencySymbol})</div>
 		<div class="stat-value -lg:text-base">{toCurrency(user.totalReceivedAmount)}</div>
 	</div>
 	<div class="stat">
-		<div class="stat-title">Spent Amount (₹)</div>
+		<div class="stat-title">Spent Amount ({kconstants.currencySymbol})</div>
 		<div class="stat-value -lg:text-base">{toCurrency(user.spent)}</div>
 	</div>
 	<div class="stat">
-		<div class="stat-title">Balance (₹)</div>
+		<div class="stat-title">Balance ({kconstants.currencySymbol})</div>
 		<div
 			class={`stat-value -lg:text-base ${BigInt(user.balance) < 0 ? 'text-error' : 'text-sucess'}`}
 		>
@@ -62,7 +63,9 @@
 					cost
 				} = site}
 				<tr>
-					<th class="bg-base-100">{index + 1}</th>
+					<th class="actions bg-base-100 p-0">
+						<ManagerSiteActions {site} />
+					</th>
 					<td>{formatDate(createdAt)}</td>
 					<td>{name}</td>
 					<td>{location}</td>
