@@ -37,7 +37,7 @@
 </div>
 
 <div class="overflow-x-auto">
-	<table class="table-compact table w-full">
+	<table class="table-zebra table-compact table w-full">
 		<thead>
 			<tr>
 				<th />

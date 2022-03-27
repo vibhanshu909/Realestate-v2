@@ -3,6 +3,7 @@
 	import { kconstants } from '$lib/kconstants';
 	import { toCurrency } from '$lib/toCurrency';
 	import type { Site } from '@prisma/client';
+	import SiteActions from './siteActions.svelte';
 
 	export let sites: (Site & {
 		manager: {
@@ -15,7 +16,7 @@
 </script>
 
 <div class="overflow-x-auto">
-	<table class="table-compact table w-full">
+	<table class="table-zebra table-compact table w-full">
 		<thead>
 			<tr>
 				<th />
@@ -30,7 +31,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each sites as site, index}
+			{#each sites as site (site.id)}
 				{@const {
 					createdAt,
 					updatedAt,
@@ -42,7 +43,9 @@
 					cost
 				} = site}
 				<tr>
-					<th class="bg-base-100">{index + 1}</th>
+					<th class="actions bg-base-100 p-0">
+						<SiteActions {site} />
+					</th>
 					<td>{formatDate(createdAt)}</td>
 					<td>{name}</td>
 					<td>{location}</td>

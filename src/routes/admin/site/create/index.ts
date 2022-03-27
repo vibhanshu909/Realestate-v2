@@ -34,23 +34,41 @@ export const post: RequestHandler = async ({ request }) => {
 		}
 		const manager = await prisma.user.findFirst({ where: { id: managerId } });
 		if (manager) {
+			const totalItemDefault = {
+				cost: 0,
+				quantity: 0
+			};
 			const site = await prisma.site.create({
 				data: {
 					name,
 					location,
-					managerId,
-					createdAt,
+					manager: { connect: { id: managerId } },
+					createdAt: new Date(createdAt),
 					// TODO: remove this after migration
 					isDeleted: false,
 					managerSpentAmount: 0,
 					cost: 0,
-					total: {}
+					total: {
+						set: {
+							mistri: totalItemDefault,
+							labour: totalItemDefault,
+							eit: totalItemDefault,
+							morang: totalItemDefault,
+							baalu: totalItemDefault,
+							githi: totalItemDefault,
+							cement: totalItemDefault,
+							saria: totalItemDefault,
+							dust: totalItemDefault,
+							other: 0,
+							other2: 0
+						}
+					}
 				}
 			});
 			return {
-				status: 200,
-				body: {
-					site
+				status: 302,
+				headers: {
+					location: '/admin'
 				}
 			};
 		} else {

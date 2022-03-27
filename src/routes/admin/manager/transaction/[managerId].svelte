@@ -21,7 +21,7 @@
 	</div>
 {:else}
 	<div class="overflow-x-auto">
-		<table class="table-compact table w-full">
+		<table class="table-compact table-zebra table w-full">
 			<thead>
 				<tr>
 					<th />

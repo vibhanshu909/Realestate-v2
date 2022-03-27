@@ -90,8 +90,8 @@ model SiteEntry {
   cement SiteEntryItem
   saria  SiteEntryItem
   dust   SiteEntryItem
-  other  SiteEntryItem
-  other2 SiteEntryItem
+  other  SiteEntryOtherItem
+  other2 SiteEntryOtherItem
   note   String?
 
   managerSpentAmount BigInt
@@ -107,6 +107,12 @@ type SiteEntryItem {
   cost     BigInt
   paid     Boolean
   quantity BigInt
+}
+
+type SiteEntryOtherItem {
+  cost     BigInt
+  paid     Boolean
+  quantity String?
 }
 
 type SiteTotalItem {
