@@ -1,3 +1,4 @@
+import { dev } from '$app/env';
 import pkg from '@prisma/client';
 
 const { PrismaClient, HistoryType } = pkg;
@@ -13,6 +14,6 @@ export const prisma = new PrismaClient({
 		}
 	]
 });
-prisma.$on('query', (e) => console.log('\n', e.query, '\n'));
+dev && prisma.$on('query', (e) => console.log('\n', e.query, '\n'));
 
 export { HistoryType };

@@ -8,6 +8,10 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
+		prerender: {
+			enabled: false,
+			default: false
+		},
 		adapter: adapter()
 	}
 };
