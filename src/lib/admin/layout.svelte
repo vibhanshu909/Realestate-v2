@@ -9,6 +9,7 @@
 		>
 		<!-- <div class="divider divider-horizontal m-0 w-1" /> -->
 		<a
+			sveltekit:prefetch
 			href="/admin/sites"
 			class="btn md:btn-wide"
 			class:btn-active={$page.url.pathname === '/admin/sites'}>Sites</a

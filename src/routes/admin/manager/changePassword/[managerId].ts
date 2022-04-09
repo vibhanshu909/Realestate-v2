@@ -1,4 +1,6 @@
 import { prisma } from '$lib/db';
+import { performActivity } from '$lib/performActivity';
+import type { User } from '@prisma/client';
 import type { RequestHandler } from '@sveltejs/kit';
 import bcrypt from 'bcryptjs';
 
@@ -16,7 +18,8 @@ export const get: RequestHandler = async ({ params }) => {
 	};
 };
 
-export const post: RequestHandler = async ({ params, request }) => {
+export const post: RequestHandler = async ({ params, request, locals }) => {
+	const { user }: { user: User } = locals as any;
 	if (params?.managerId) {
 		try {
 			const formData = await request.formData();
@@ -31,14 +34,22 @@ export const post: RequestHandler = async ({ params, request }) => {
 				};
 			}
 			const hashedPassword = await bcrypt.hash(newPassword, 10);
-			await prisma.user.update({
-				where: {
-					id: params.managerId
-				},
-				data: {
-					password: hashedPassword
-				}
-			});
+			await prisma.$transaction([
+				prisma.user.update({
+					where: {
+						id: params.managerId
+					},
+					data: {
+						password: hashedPassword
+					}
+				}),
+				performActivity({
+					user,
+					activity: 'Change Password',
+					arguments: params,
+					result: {}
+				})
+			]);
 			return {
 				status: 302,
 				headers: {

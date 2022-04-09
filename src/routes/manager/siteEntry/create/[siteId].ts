@@ -1,6 +1,8 @@
-import { prisma } from '$lib/db';
-import type { Prisma } from '@prisma/client';
+import { HistoryType, prisma } from '$lib/db';
+import { performActivity } from '$lib/performActivity';
+import type { Prisma, User } from '@prisma/client';
 import type { RequestHandler } from '@sveltejs/kit';
+
 export const get: RequestHandler = async ({ params }) => {
 	if (params?.siteId) {
 		return {
@@ -23,7 +25,8 @@ export const get: RequestHandler = async ({ params }) => {
 	}
 };
 
-export const post: RequestHandler = async ({ params, request }) => {
+export const post: RequestHandler = async ({ params, request, locals }) => {
+	const { user }: { user: User } = locals as any;
 	try {
 		const site = await prisma.site.findFirst({ where: { id: params?.siteId } });
 		if (site) {
@@ -47,14 +50,48 @@ export const post: RequestHandler = async ({ params, request }) => {
 					data.managerSpentAmount = (data.managerSpentAmount as bigint) + BigInt(data[field].cost);
 				} else {
 					data[field][subfield] = BigInt(value);
+					site.total[field][subfield] += data[field][subfield];
 					if (subfield === 'cost') {
 						data.total = (data.total as bigint) + BigInt(value);
 					}
 				}
 			}
-			await prisma.siteEntry.create({
-				data
-			});
+			await prisma.$transaction([
+				prisma.siteEntry.create({
+					data
+				}),
+				prisma.user.update({
+					where: {
+						id: user.id
+					},
+					data: {
+						spent: user.spent + (data.managerSpentAmount as bigint),
+						balance: user.balance - (data.managerSpentAmount as bigint),
+						history: {
+							create: {
+								amount: data.managerSpentAmount,
+								type: HistoryType.DEBIT,
+								balance: user.balance - (data.managerSpentAmount as bigint),
+								note: `For: "${site.name}"`
+							}
+						}
+					}
+				}),
+				prisma.site.update({
+					where: {
+						id: site.id
+					},
+					data: {
+						total: site.total
+					}
+				}),
+				performActivity({
+					user,
+					activity: 'Create Site Entry',
+					arguments: params,
+					result: {}
+				})
+			]);
 			return {
 				status: 302,
 				headers: {

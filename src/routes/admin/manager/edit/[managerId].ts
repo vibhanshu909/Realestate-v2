@@ -1,4 +1,6 @@
 import { prisma } from '$lib/db';
+import { performActivity } from '$lib/performActivity';
+import type { User } from '@prisma/client';
 import type { RequestHandler } from '@sveltejs/kit';
 
 export const get: RequestHandler = async ({ params }) => {
@@ -15,20 +17,29 @@ export const get: RequestHandler = async ({ params }) => {
 	};
 };
 
-export const post: RequestHandler = async ({ params, request }) => {
+export const post: RequestHandler = async ({ params, request, locals }) => {
+	const { user }: { user: User } = locals as any;
 	if (params?.managerId) {
 		try {
 			const formData = await request.formData();
 			const username = formData.get('username') as string;
 			if (username) {
-				await prisma.user.update({
-					where: {
-						id: params.managerId
-					},
-					data: {
-						username
-					}
-				});
+				await prisma.$transaction([
+					prisma.user.update({
+						where: {
+							id: params.managerId
+						},
+						data: {
+							username
+						}
+					}),
+					performActivity({
+						user,
+						activity: 'Edit/Update Manager',
+						arguments: params,
+						result: {}
+					})
+				]);
 				return {
 					status: 302,
 					headers: {

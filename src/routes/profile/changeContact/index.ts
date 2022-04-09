@@ -1,9 +1,13 @@
 import { prisma } from '$lib/db';
+import { performActivity } from '$lib/performActivity';
+import type { User } from '@prisma/client';
 import type { RequestHandler } from '@sveltejs/kit';
 
 export const get: RequestHandler = async ({ locals }) => {
+	const { user }: { user: User } = locals as any;
+
 	try {
-		const user = await prisma.user.findFirst({ where: { id: locals?.user?.id } });
+		// const user = await prisma.user.findFirst({ where: { id: locals?.user?.id } });
 		if (user) {
 			return {
 				status: 200,
@@ -22,18 +26,27 @@ export const get: RequestHandler = async ({ locals }) => {
 };
 
 export const post: RequestHandler = async ({ request, locals }) => {
+	const { user }: { user: User } = locals as any;
 	try {
 		const formData = await request.formData();
 		const contact = formData.get('contact') as string;
 		if (contact.length === 10) {
-			await prisma.user.update({
-				where: {
-					id: locals?.user?.id
-				},
-				data: {
-					contact: BigInt(contact)
-				}
-			});
+			await prisma.$transaction([
+				prisma.user.update({
+					where: {
+						id: user?.id
+					},
+					data: {
+						contact: BigInt(contact)
+					}
+				}),
+				performActivity({
+					user,
+					activity: 'Change contact',
+					arguments: {},
+					result: {}
+				})
+			]);
 			return {
 				status: 302,
 				headers: {

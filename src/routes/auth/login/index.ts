@@ -1,4 +1,5 @@
 import { prisma } from '$lib/db';
+import { performActivity } from '$lib/performActivity';
 import type { RequestHandler } from '@sveltejs/kit';
 import bcrypt from 'bcryptjs';
 import cookie from 'cookie';
@@ -21,6 +22,12 @@ export const post: RequestHandler = async ({ request }) => {
 						expiresIn: '1y'
 					}
 				);
+				await performActivity({
+					user: { username },
+					activity: 'Login',
+					arguments: {},
+					result: {}
+				});
 				return {
 					status: 302,
 					headers: {

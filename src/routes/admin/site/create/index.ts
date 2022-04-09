@@ -1,4 +1,6 @@
 import { prisma } from '$lib/db';
+import { performActivity } from '$lib/performActivity';
+import type { User } from '@prisma/client';
 import type { RequestHandler } from '@sveltejs/kit';
 
 export const get: RequestHandler = async () => {
@@ -17,7 +19,8 @@ export const get: RequestHandler = async () => {
 	};
 };
 
-export const post: RequestHandler = async ({ request }) => {
+export const post: RequestHandler = async ({ request, locals }) => {
+	const { user }: { user: User } = locals as any;
 	try {
 		const formData = await request.formData();
 		const name = formData.get('name') as string,
@@ -35,36 +38,43 @@ export const post: RequestHandler = async ({ request }) => {
 		const manager = await prisma.user.findFirst({ where: { id: managerId } });
 		if (manager) {
 			const totalItemDefault = {
-				cost: 0,
-				quantity: 0
+				cost: 0n,
+				quantity: 0n
 			};
-			const site = await prisma.site.create({
-				data: {
-					name,
-					location,
-					manager: { connect: { id: managerId } },
-					createdAt: new Date(createdAt),
-					// TODO: remove this after migration
-					isDeleted: false,
-					managerSpentAmount: 0,
-					cost: 0,
-					total: {
-						set: {
-							mistri: totalItemDefault,
-							labour: totalItemDefault,
-							eit: totalItemDefault,
-							morang: totalItemDefault,
-							baalu: totalItemDefault,
-							githi: totalItemDefault,
-							cement: totalItemDefault,
-							saria: totalItemDefault,
-							dust: totalItemDefault,
-							other: 0,
-							other2: 0
+			await prisma.$transaction([
+				prisma.site.create({
+					data: {
+						name,
+						location,
+						manager: { connect: { id: managerId } },
+						createdAt: new Date(createdAt),
+						isDeleted: false,
+						managerSpentAmount: 0n,
+						cost: 0n,
+						total: {
+							set: {
+								mistri: totalItemDefault,
+								labour: totalItemDefault,
+								eit: totalItemDefault,
+								morang: totalItemDefault,
+								baalu: totalItemDefault,
+								githi: totalItemDefault,
+								cement: totalItemDefault,
+								saria: totalItemDefault,
+								dust: totalItemDefault,
+								other: 0n,
+								other2: 0n
+							}
 						}
 					}
-				}
-			});
+				}),
+				performActivity({
+					user,
+					activity: 'Create Site',
+					arguments: {},
+					result: {}
+				})
+			]);
 			return {
 				status: 302,
 				headers: {

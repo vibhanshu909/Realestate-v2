@@ -1,14 +1,25 @@
 import { prisma } from '$lib/db';
+import { performActivity } from '$lib/performActivity';
+import type { User } from '@prisma/client';
 import type { RequestHandler } from '@sveltejs/kit';
 
-export const get: RequestHandler = async ({ params }) => {
+export const get: RequestHandler = async ({ params, locals }) => {
+	const { user }: { user: User } = locals as any;
 	if (params?.managerId) {
 		if (
-			await prisma.user.delete({
-				where: {
-					id: params.managerId
-				}
-			})
+			await prisma.$transaction([
+				prisma.user.delete({
+					where: {
+						id: params.managerId
+					}
+				}),
+				performActivity({
+					user,
+					activity: 'Delete Manager',
+					arguments: params,
+					result: {}
+				})
+			])
 		) {
 			return {
 				status: 302,

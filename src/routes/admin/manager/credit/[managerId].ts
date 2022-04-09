@@ -1,4 +1,6 @@
 import { HistoryType, prisma } from '$lib/db';
+import { performActivity } from '$lib/performActivity';
+import type { User } from '@prisma/client';
 import type { RequestHandler } from '@sveltejs/kit';
 
 export const get: RequestHandler = async ({ params }) => {
@@ -15,7 +17,8 @@ export const get: RequestHandler = async ({ params }) => {
 	};
 };
 
-export const post: RequestHandler = async ({ params, request }) => {
+export const post: RequestHandler = async ({ params, request, locals }) => {
+	const { user }: { user: User } = locals as any;
 	if (params?.managerId) {
 		try {
 			const formData = await request.formData();
@@ -42,24 +45,32 @@ export const post: RequestHandler = async ({ params, request }) => {
 						})
 					)?.balance ?? 0
 				);
-			await prisma.history.create({
-				data: {
-					userId: params.managerId,
-					amount,
-					note,
-					type: HistoryType.CREDIT,
-					balance
-				}
-			});
-			await prisma.user.update({
-				where: {
-					id: params.managerId
-				},
-				data: {
-					totalReceivedAmount: manager.totalReceivedAmount + amount,
-					balance: manager.balance + amount
-				}
-			});
+			await prisma.$transaction([
+				prisma.history.create({
+					data: {
+						userId: params.managerId,
+						amount,
+						note,
+						type: HistoryType.CREDIT,
+						balance
+					}
+				}),
+				prisma.user.update({
+					where: {
+						id: params.managerId
+					},
+					data: {
+						totalReceivedAmount: manager.totalReceivedAmount + amount,
+						balance: manager.balance + amount
+					}
+				}),
+				performActivity({
+					user,
+					activity: 'Credit Manager',
+					arguments: params,
+					result: {}
+				})
+			]);
 			return {
 				status: 302,
 				headers: {

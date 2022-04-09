@@ -1,8 +1,11 @@
 import { prisma } from '$lib/db';
+import { performActivity } from '$lib/performActivity';
+import type { User } from '@prisma/client';
 import type { RequestHandler } from '@sveltejs/kit';
 import bcrypt from 'bcryptjs';
 
-export const post: RequestHandler = async ({ request }) => {
+export const post: RequestHandler = async ({ request, locals }) => {
+	const { user }: { user: User } = locals as any;
 	try {
 		const formData = await request.formData();
 		const username = formData.get('username') as string,
@@ -11,15 +14,23 @@ export const post: RequestHandler = async ({ request }) => {
 			contact = BigInt((formData.get('contact') || 0) as any);
 
 		if (username && password) {
-			await prisma.user.create({
-				data: {
-					username,
-					password: bcrypt.hashSync(password),
-					contact,
-					totalReceivedAmount,
-					balance: totalReceivedAmount
-				}
-			});
+			await prisma.$transaction([
+				prisma.user.create({
+					data: {
+						username,
+						password: bcrypt.hashSync(password),
+						contact,
+						totalReceivedAmount,
+						balance: totalReceivedAmount
+					}
+				}),
+				performActivity({
+					user,
+					activity: 'Create New Manager',
+					arguments: {},
+					result: {}
+				})
+			]);
 			return {
 				status: 302,
 				headers: {
