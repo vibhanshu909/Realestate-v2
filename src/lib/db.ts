@@ -1,7 +1,7 @@
 import { dev } from '$app/env';
-import { HistoryType, PrismaClient } from '@prisma/client';
+import pkg from '@prisma/client';
 
-// const { PrismaClient, HistoryType } = pkg;
+const { PrismaClient, HistoryType } = pkg;
 BigInt.prototype['toJSON'] = function () {
 	return this.toString();
 };
