@@ -1,9 +1,6 @@
-<script lang="ts" context="module">
-</script>
-
 <script lang="ts">
-	export let username: string;
-	export let contact: bigint;
+	import type { Site } from '@prisma/client';
+	export let site: Site;
 	export let errors: string[] = [];
 	let submitting = false;
 	let form: HTMLFormElement;
@@ -13,9 +10,8 @@
 	<div class="hero-content w-full flex-col lg:flex-row-reverse">
 		<div class="card w-full max-w-sm flex-shrink-0 bg-base-100 shadow-2xl">
 			<div class="card-body">
-				<h1 class="text-center text-2xl">Update</h1>
-				<p class="text-center text-sm">({username})</p>
-				{#if errors?.length}
+				<h1 class="text-center text-2xl">Update Site</h1>
+				{#if errors.length}
 					<div class="my-2 text-error">
 						{#each errors as error}
 							<div class="inline-flex gap-1">
@@ -48,30 +44,28 @@
 				>
 					<fieldset disabled={submitting}>
 						<div class="form-control">
-							<label class="label" for="username">
-								<span class="label-text">Username</span>
+							<label class="label" for="name">
+								<span class="label-text">Site Name</span>
 							</label>
 							<input
-								name="username"
-								value={username}
-								id="username"
+								name="name"
+								value={site.name}
 								type="text"
-								placeholder="username"
+								placeholder="site name"
 								class="input input-bordered"
 								required
 								autocomplete="off"
 							/>
 						</div>
 						<div class="form-control">
-							<label class="label" for="contact">
-								<span class="label-text">Contact</span>
+							<label class="label" for="location">
+								<span class="label-text">Location</span>
 							</label>
 							<input
-								name="contact"
-								value={contact}
-								id="contact"
-								type="number"
-								placeholder="contact"
+								name="location"
+								value={site.location}
+								type="text"
+								placeholder="location"
 								class="input input-bordered"
 								required
 								enterkeyhint="done"

@@ -52,7 +52,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each sites as site, index}
+			{#each sites as site}
 				{@const {
 					createdAt,
 					updatedAt,

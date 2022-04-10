@@ -7,7 +7,8 @@ export const get: RequestHandler = async ({ params }) => {
 	const user = await prisma.user.findFirst({
 		where: { id: params?.managerId },
 		select: {
-			username: true
+			username: true,
+			contact: true
 		}
 	});
 
@@ -23,14 +24,16 @@ export const post: RequestHandler = async ({ params, request, locals }) => {
 		try {
 			const formData = await request.formData();
 			const username = formData.get('username') as string;
-			if (username) {
+			const contact = BigInt(formData.get('contact') as any);
+			if (username && contact) {
 				await prisma.$transaction([
 					prisma.user.update({
 						where: {
 							id: params.managerId
 						},
 						data: {
-							username
+							username,
+							contact
 						}
 					}),
 					performActivity({

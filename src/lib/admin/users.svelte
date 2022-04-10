@@ -14,7 +14,7 @@
 </script>
 
 <div class="overflow-x-auto">
-	<table class="table table-zebra table-compact w-full">
+	<table class="table-zebra table-compact table w-full">
 		<thead>
 			<tr>
 				<th />
