@@ -60,6 +60,7 @@
 								placeholder="New Password"
 								class="input input-bordered"
 								required
+								autocomplete="off"
 							/>
 						</div>
 						<div class="form-control">
@@ -72,6 +73,8 @@
 								placeholder="Confirm New Password"
 								class="input input-bordered"
 								required
+								enterkeyhint="done"
+								autocomplete="off"
 							/>
 						</div>
 						<div class="form-control mt-6">

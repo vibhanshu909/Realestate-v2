@@ -61,6 +61,8 @@
 								bind:value={contact}
 								minlength="10"
 								maxlength="10"
+								enterkeyhint="done"
+								autocomplete="off"
 							/>
 						</div>
 						<div class="form-control mt-6">

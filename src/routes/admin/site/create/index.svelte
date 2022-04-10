@@ -53,6 +53,7 @@
 								placeholder="site name"
 								class="input input-bordered"
 								required
+								autocomplete="off"
 							/>
 						</div>
 						<div class="form-control">
@@ -65,13 +66,14 @@
 								placeholder="location"
 								class="input input-bordered"
 								required
+								autocomplete="off"
 							/>
 						</div>
 						<div class="form-control">
 							<label class="label" for="manager">
 								<span class="label-text">Manager</span>
 							</label>
-							<select name="managerId" class="input input-bordered" required>
+							<select name="managerId" class="input input-bordered" required autocomplete="off">
 								<option value="" disabled selected>Select a manager</option>
 								{#each managers as manager}
 									<option value={manager.id}>{manager.username}</option>
@@ -89,6 +91,8 @@
 								placeholder="createdAt"
 								class="input input-bordered"
 								required
+								enterkeyhint="done"
+								autocomplete="off"
 							/>
 						</div>
 						<div class="form-control mt-6">

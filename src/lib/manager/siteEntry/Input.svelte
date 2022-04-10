@@ -14,6 +14,7 @@
 		min="0"
 		class="input input-bordered"
 		required
+		autocomplete="off"
 	/>
 	<input
 		name={name + '.cost'}
@@ -21,6 +22,7 @@
 		placeholder="Cost"
 		class="input input-bordered my-2"
 		required
+		autocomplete="off"
 	/>
 	<label class="label cursor-pointer justify-start gap-2">
 		<input name={name + '.paid'} type="checkbox" class="checkbox checkbox-primary" />

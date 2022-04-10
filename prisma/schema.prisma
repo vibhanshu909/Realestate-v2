@@ -141,8 +141,8 @@ model Activity {
   updatedAt DateTime @updatedAt @db.Date
 
   activity  String
-  arguments Json
-  result    Json
+  arguments Json?
+  result    Json?
   username  String
 
   @@map("activities")

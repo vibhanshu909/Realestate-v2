@@ -52,6 +52,7 @@
 								placeholder="username"
 								class="input input-bordered"
 								required
+								autocomplete="off"
 							/>
 						</div>
 						<div class="form-control">
@@ -65,6 +66,7 @@
 								placeholder="password"
 								class="input input-bordered"
 								required
+								autocomplete="off"
 							/>
 						</div>
 						<div class="form-control">
@@ -79,6 +81,7 @@
 								class="input input-bordered"
 								value="0"
 								required
+								autocomplete="off"
 							/>
 						</div>
 						<div class="form-control">
@@ -93,6 +96,8 @@
 								class="input input-bordered"
 								value="0"
 								required
+								enterkeyhint="done"
+								autocomplete="off"
 							/>
 						</div>
 						<div class="form-control mt-6">

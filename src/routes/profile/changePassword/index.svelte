@@ -59,6 +59,7 @@
 								placeholder="Current Password"
 								class="input input-bordered"
 								required
+								autocomplete="off"
 							/>
 						</div>
 						<div class="form-control">
@@ -72,6 +73,7 @@
 								class="input input-bordered"
 								required
 								bind:value={newPassword}
+								autocomplete="off"
 							/>
 						</div>
 						<div class="form-control">
@@ -85,6 +87,8 @@
 								class="input input-bordered"
 								required
 								bind:value={newPassword2}
+								enterkeyhint="done"
+								autocomplete="off"
 							/>
 						</div>
 						<div class="form-control mt-6">

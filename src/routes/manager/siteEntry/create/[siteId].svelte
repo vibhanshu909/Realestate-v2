@@ -83,7 +83,14 @@
 								<label class="label" for="note">
 									<span class="label-text">Note</span>
 								</label>
-								<input name="note" type="text" placeholder="Note" class="input input-bordered" />
+								<input
+									name="note"
+									type="text"
+									placeholder="Note"
+									class="input input-bordered"
+									enterkeyhint="done"
+									autocomplete="off"
+								/>
 							</div>
 
 							<div class="form-control mt-6">

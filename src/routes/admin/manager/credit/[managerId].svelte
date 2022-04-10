@@ -59,6 +59,7 @@
 								placeholder="amount"
 								class="input input-bordered"
 								required
+								autocomplete="off"
 							/>
 						</div>
 						<div class="form-control">
@@ -71,6 +72,8 @@
 								type="text"
 								placeholder="note"
 								class="input input-bordered"
+								enterkeyhint="done"
+								autocomplete="off"
 							/>
 						</div>
 						<div class="form-control mt-6">

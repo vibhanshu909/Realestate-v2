@@ -20,7 +20,7 @@
 	<a
 		id="create-site"
 		href="/admin/site/create"
-		class="btn btn-primary btn-circle btn-lg fixed bottom-12 right-0 mr-2"
+		class="btn btn-circle btn-primary btn-lg fixed bottom-12 right-0 mr-2"
 	>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
