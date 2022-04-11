@@ -25,7 +25,7 @@ export const post: RequestHandler = async ({ params, request, locals }) => {
 			const formData = await request.formData();
 			const username = formData.get('username') as string;
 			const contact = BigInt(formData.get('contact') as any);
-			if (username && contact) {
+			if (username) {
 				await prisma.$transaction([
 					prisma.user.update({
 						where: {

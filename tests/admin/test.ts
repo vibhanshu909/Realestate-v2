@@ -10,7 +10,7 @@ test.describe('Admin', () => {
 
 	test('Create Manager', async ({ page }) => {
 		await page.click('main a#create-manager');
-		await page.waitForNavigation();
+
 		expect(page.url()).toContain('/admin/manager/create');
 
 		// Form
@@ -52,7 +52,7 @@ test.describe('Admin', () => {
 		await submitBtnEl.click();
 
 		// Wait for redirect
-		await page.waitForNavigation();
+
 		expect(page.url()).toContain('/admin');
 
 		// Check if manager is created
@@ -74,7 +74,7 @@ test.describe('Admin', () => {
 		await page.click('main table > tbody > tr:nth-child(1) > th.actions');
 
 		await page.click('a.manager-credit');
-		await page.waitForNavigation();
+
 		expect(page.url()).toContain('/admin/manager/credit/');
 
 		// Form
@@ -103,7 +103,7 @@ test.describe('Admin', () => {
 		await submitBtnEl.click();
 
 		// Wait for redirect
-		await page.waitForNavigation();
+
 		expect(page.url()).toContain('/admin');
 
 		// Check if manager is credited
@@ -120,7 +120,7 @@ test.describe('Admin', () => {
 		await page.click('main table > tbody > tr:nth-child(1) > th.actions');
 
 		await page.click('a.manager-credit');
-		await page.waitForNavigation();
+
 		expect(page.url()).toContain('/admin/manager/credit/');
 
 		// Form
@@ -149,7 +149,7 @@ test.describe('Admin', () => {
 		await submitBtnEl.click();
 
 		// Wait for redirect
-		await page.waitForNavigation();
+
 		expect(page.url()).toContain('/admin');
 
 		// Check if manager is credited
@@ -168,7 +168,7 @@ test.describe('Admin', () => {
 		await page.click('a.manager-history');
 
 		// Wait for redirect
-		await page.waitForNavigation();
+
 		expect(page.url()).toContain('/admin/manager/transaction/');
 
 		const historyEl = page.locator('main table > tbody > tr:nth-child(1)');
@@ -199,7 +199,7 @@ test.describe('Admin', () => {
 		await page.click('main table > tbody > tr:nth-child(1) > th.actions');
 
 		await page.click('a.manager-edit');
-		await page.waitForNavigation();
+
 		expect(page.url()).toContain('/admin/manager/edit/');
 
 		// Form
@@ -220,13 +220,13 @@ test.describe('Admin', () => {
 		await submitBtnEl.click();
 
 		// Wait for redirect
-		await page.waitForNavigation();
+
 		expect(page.url()).toContain('/admin');
 
-		// Check if manager is updated
-		const managerEl = page.locator('main table tbody tr:nth-child(1)');
-		// Username
-		expect(await managerEl.locator('td:nth-child(3)').textContent()).toBe('temp0');
+		// Check if manager username is updated
+		expect(
+			await page.locator('main table > tbody > tr:nth-child(1) > td:nth-child(3)').textContent()
+		).toBe('temp0');
 	});
 
 	test('Delete Manager', async ({ page }) => {
@@ -234,7 +234,7 @@ test.describe('Admin', () => {
 
 		await page.click('a.manager-delete');
 		// Wait for redirect
-		await page.waitForNavigation();
+
 		expect(page.url()).toContain('/admin');
 
 		// Check if manager is deleted
