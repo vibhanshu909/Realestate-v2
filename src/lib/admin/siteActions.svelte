@@ -74,7 +74,7 @@
 					>
 				</li>
 				<li>
-					<a href={`/admin/site/delete/${site.id}`} rel="external" class="site-delete">
+					<a href={`/admin/site/delete/${site.id}`} sveltekit:reload class="site-delete">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="h-6 w-6"
