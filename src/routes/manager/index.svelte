@@ -1,6 +1,7 @@
 <script lang="ts" context="module">
 	import formatDate from '$lib/date';
 	import { kconstants } from '$lib/kconstants';
+	import ManagerSiteTableHeader from '$lib/manager/ManagerSiteTableHeader.svelte';
 	import ManagerSiteActions from '$lib/manager/siteActions.svelte';
 	import { toCurrency } from '$lib/toCurrency';
 	import type { Site, User } from '@prisma/client';
@@ -9,7 +10,11 @@
 <script lang="ts">
 	export let user: Omit<User, 'password'>;
 	export let siteCount: number;
-	export let sites: Site[];
+	export let sites: (Site & {
+		_count: {
+			siteEntries: number;
+		};
+	})[];
 </script>
 
 <div
@@ -38,18 +43,9 @@
 </div>
 
 <div class="overflow-x-auto">
-	<table class="table table-zebra table-compact w-full">
+	<table class="table-zebra table-compact table w-full">
 		<thead>
-			<tr>
-				<th />
-				<th>Created At</th>
-				<th>Name</th>
-				<th>Location</th>
-				<th>Total Entries</th>
-				<th>Last Entry On</th>
-				<th>Manager Spent Amount({kconstants.currencySymbol})</th>
-				<th>Total Cost({kconstants.currencySymbol})</th>
-			</tr>
+			<ManagerSiteTableHeader />
 		</thead>
 		<tbody>
 			{#each sites as site}
@@ -77,16 +73,7 @@
 			{/each}
 		</tbody>
 		<tfoot>
-			<tr>
-				<th />
-				<th>Created At</th>
-				<th>Name</th>
-				<th>Location</th>
-				<th>Total Entries</th>
-				<th>Last Entry On</th>
-				<th>Manager Spent Amount({kconstants.currencySymbol})</th>
-				<th>Total Cost({kconstants.currencySymbol})</th>
-			</tr>
+			<ManagerSiteTableHeader />
 		</tfoot>
 	</table>
 </div>

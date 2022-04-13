@@ -3,6 +3,7 @@
 	import { kconstants } from '$lib/kconstants';
 	import { toCurrency } from '$lib/toCurrency';
 	import type { Site, SiteEntry, User } from '@prisma/client';
+	import SiteDetailTableHeader from './SiteDetailTableHeader.svelte';
 	export let site: Site & {
 		manager: User;
 	};
@@ -53,20 +54,7 @@
 <div class="my-5 overflow-x-auto">
 	<table class="table-compact table w-full">
 		<thead>
-			<tr>
-				<th />
-				<th colspan="2" class="text-center">Mistri</th>
-				<th colspan="2" class="text-center">Labour</th>
-				<th colspan="2" class="text-center">Eit</th>
-				<th colspan="2" class="text-center">Morang</th>
-				<th colspan="2" class="text-center">Baalu</th>
-				<th colspan="2" class="text-center">Githi</th>
-				<th colspan="2" class="text-center">Cement</th>
-				<th colspan="2" class="text-center">Saria</th>
-				<th colspan="2" class="text-center">Dust</th>
-				<th colspan="2" class="text-center">Other</th>
-				<th colspan="2" class="text-center">Other 2</th>
-			</tr>
+			<SiteDetailTableHeader />
 		</thead>
 		<tbody>
 			<tr>
@@ -103,20 +91,7 @@
 			</tr>
 		</tbody>
 		<tfoot>
-			<tr>
-				<th />
-				<th colspan="2" class="text-center">Mistri</th>
-				<th colspan="2" class="text-center">Labour</th>
-				<th colspan="2" class="text-center">Eit</th>
-				<th colspan="2" class="text-center">Morang</th>
-				<th colspan="2" class="text-center">Baalu</th>
-				<th colspan="2" class="text-center">Githi</th>
-				<th colspan="2" class="text-center">Cement</th>
-				<th colspan="2" class="text-center">Saria</th>
-				<th colspan="2" class="text-center">Dust</th>
-				<th colspan="2" class="text-center">Other</th>
-				<th colspan="2" class="text-center">Other 2</th>
-			</tr>
+			<SiteDetailTableHeader />
 		</tfoot>
 	</table>
 </div>
@@ -125,20 +100,7 @@
 <div class="overflow-x-auto">
 	<table class="table-zebra table-compact table w-full">
 		<thead>
-			<tr>
-				<th />
-				<th colspan="2" class="text-center">Mistri</th>
-				<th colspan="2" class="text-center">Labour</th>
-				<th colspan="2" class="text-center">Eit</th>
-				<th colspan="2" class="text-center">Morang</th>
-				<th colspan="2" class="text-center">Baalu</th>
-				<th colspan="2" class="text-center">Githi</th>
-				<th colspan="2" class="text-center">Cement</th>
-				<th colspan="2" class="text-center">Saria</th>
-				<th colspan="2" class="text-center">Dust</th>
-				<th colspan="2" class="text-center">Other</th>
-				<th colspan="2" class="text-center">Other 2</th>
-			</tr>
+			<SiteDetailTableHeader />
 		</thead>
 		<tbody>
 			<tr>
@@ -181,20 +143,7 @@
 			{/each}
 		</tbody>
 		<tfoot>
-			<tr>
-				<th />
-				<th colspan="2" class="text-center">Mistri</th>
-				<th colspan="2" class="text-center">Labour</th>
-				<th colspan="2" class="text-center">Eit</th>
-				<th colspan="2" class="text-center">Morang</th>
-				<th colspan="2" class="text-center">Baalu</th>
-				<th colspan="2" class="text-center">Githi</th>
-				<th colspan="2" class="text-center">Cement</th>
-				<th colspan="2" class="text-center">Saria</th>
-				<th colspan="2" class="text-center">Dust</th>
-				<th colspan="2" class="text-center">Other</th>
-				<th colspan="2" class="text-center">Other 2</th>
-			</tr>
+			<SiteDetailTableHeader />
 		</tfoot>
 	</table>
 </div>

@@ -1,7 +1,7 @@
 import { tick } from 'svelte';
 
 const portal_map = new Map();
-export function createPortal(node: HTMLElement, id: string = 'default') {
+export function createPortal(node: HTMLElement, id = 'default') {
 	const key = `$$portal.${id}`;
 	if (portal_map.has(key)) throw `duplicate portal key "${id}"`;
 	else portal_map.set(key, node);
@@ -15,13 +15,13 @@ function mount(node: HTMLElement, key: string) {
 	return () => host.contains(node) && host.removeChild(node);
 }
 
-export function portal(node: HTMLElement, id: string = 'default') {
-	let destroy: Function;
+export function portal(node: HTMLElement, id = 'default') {
+	let destroy: () => HTMLElement;
 	const key = `$$portal.${id}`;
 	if (!portal_map.has(key))
 		tick().then(() => {
 			destroy = mount(node, key);
 		});
 	else destroy = mount(node, key);
-	return { destroy: () => destroy?.() };
+	return { destroy };
 }

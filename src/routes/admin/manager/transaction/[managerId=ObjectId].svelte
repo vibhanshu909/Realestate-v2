@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
 	import formatDate from '$lib/date';
-	import { kconstants } from '$lib/kconstants';
+	import ManagerTransactionTableHeader from '$lib/manager/ManagerTransactionTableHeader.svelte';
 	import { toCurrency } from '$lib/toCurrency';
 	import type { History } from '@prisma/client';
 </script>
@@ -23,14 +23,7 @@
 	<div class="overflow-x-auto">
 		<table class="table-compact table-zebra table w-full">
 			<thead>
-				<tr>
-					<th />
-					<th>Created At</th>
-					<th>Amount ({kconstants.currencySymbol})</th>
-					<th>Transaction Type</th>
-					<th>Balance ({kconstants.currencySymbol})</th>
-					<th>Note</th>
-				</tr>
+				<ManagerTransactionTableHeader />
 			</thead>
 			<tbody>
 				{#each transactions as history, index (history.id)}
@@ -46,14 +39,7 @@
 				{/each}
 			</tbody>
 			<tfoot>
-				<tr>
-					<th />
-					<th>Created At</th>
-					<th>Amount ({kconstants.currencySymbol})</th>
-					<th>Transaction Type</th>
-					<th>Balance ({kconstants.currencySymbol})</th>
-					<th>Note</th>
-				</tr>
+				<ManagerTransactionTableHeader />
 			</tfoot>
 		</table>
 	</div>

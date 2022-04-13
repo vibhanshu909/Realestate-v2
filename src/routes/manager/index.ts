@@ -1,11 +1,13 @@
 import { prisma } from '$lib/db';
+import type { User } from '@prisma/client';
 import type { RequestHandler } from '@sveltejs/kit';
 
 export const get: RequestHandler = async ({ locals }) => {
+	const user: User = (locals as any).user;
 	const [siteCount, sites] = await Promise.all([
-		await prisma.site.count({ where: { managerId: locals.user.id } }),
+		await prisma.site.count({ where: { managerId: user.id } }),
 		await prisma.site.findMany({
-			where: { managerId: locals.user.id, isDeleted: false },
+			where: { managerId: user.id, isDeleted: false },
 			orderBy: { createdAt: 'desc' },
 			include: {
 				_count: { select: { siteEntries: true } }
@@ -15,7 +17,7 @@ export const get: RequestHandler = async ({ locals }) => {
 	return {
 		status: 200,
 		body: {
-			user: locals.user,
+			user: user,
 			siteCount,
 			sites
 		}
