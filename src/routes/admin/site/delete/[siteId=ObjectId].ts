@@ -3,7 +3,7 @@ import { performActivity } from '$lib/performActivity';
 import type { User } from '@prisma/client';
 import type { RequestHandler } from '@sveltejs/kit';
 
-export const get: RequestHandler = async ({ params, locals }) => {
+export const get: RequestHandler = async ({ params, locals, url }) => {
 	const { user }: { user: User } = locals as any;
 	if (params?.siteId) {
 		if (
@@ -24,7 +24,7 @@ export const get: RequestHandler = async ({ params, locals }) => {
 			return {
 				status: 302,
 				headers: {
-					location: '/admin'
+					location: `/admin/sites/${url.searchParams.get('page') || '1'}`
 				}
 			};
 		} else {

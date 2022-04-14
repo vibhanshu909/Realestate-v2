@@ -49,6 +49,7 @@
 							</label>
 							<input
 								name="name"
+								id="name"
 								type="text"
 								placeholder="site name"
 								class="input input-bordered"
@@ -62,6 +63,7 @@
 							</label>
 							<input
 								name="location"
+								id="location"
 								type="text"
 								placeholder="location"
 								class="input input-bordered"
@@ -73,7 +75,13 @@
 							<label class="label" for="manager">
 								<span class="label-text">Manager</span>
 							</label>
-							<select name="managerId" class="input input-bordered" required autocomplete="off">
+							<select
+								name="managerId"
+								id="managerId"
+								class="input input-bordered"
+								required
+								autocomplete="off"
+							>
 								<option value="" disabled selected>Select a manager</option>
 								{#each managers as manager}
 									<option value={manager.id}>{manager.username}</option>
@@ -86,6 +94,7 @@
 							</label>
 							<input
 								name="createdAt"
+								id="createdAt"
 								type="date"
 								value={new Date().toISOString().split('T')[0]}
 								placeholder="createdAt"

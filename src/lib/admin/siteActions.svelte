@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { portal } from '$lib/actions';
 	import type { Site } from '@prisma/client';
+	export let page: number;
 	export let site: Site;
 </script>
 
@@ -55,7 +56,7 @@
 					>
 				</li>
 				<li>
-					<a href={`/admin/site/edit/${site.id}`} class="site-edit">
+					<a href={`/admin/site/edit/${site.id}?page=${page}`} class="site-edit">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="h-6 w-6"
@@ -74,7 +75,11 @@
 					>
 				</li>
 				<li>
-					<a href={`/admin/site/delete/${site.id}`} sveltekit:reload class="site-delete">
+					<a
+						href={`/admin/site/delete/${site.id}?page=${page}`}
+						sveltekit:reload
+						class="site-delete"
+					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="h-6 w-6"

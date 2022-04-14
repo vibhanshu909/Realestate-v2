@@ -18,9 +18,9 @@
 >
 	<div class="stat">
 		<div class="stat-title">Name</div>
-		<p class="stat-value whitespace-normal -lg:text-base">
+		<div class="stat-value whitespace-normal -lg:text-base">
 			{site.name}
-		</p>
+		</div>
 	</div>
 	<div class="stat">
 		<div class="stat-title">Location</div>
@@ -58,14 +58,12 @@
 		</thead>
 		<tbody>
 			<tr>
-				<th />
 				{#each new Array(11) as _}
 					<th>Quantity</th>
 					<th>Price({kconstants.currencySymbol})</th>
 				{/each}
 			</tr>
 			<tr>
-				<th />
 				<td>{mistri.quantity}</td>
 				<td>{toCurrency(mistri.cost)}</td>
 				<td>{labour.quantity}</td>

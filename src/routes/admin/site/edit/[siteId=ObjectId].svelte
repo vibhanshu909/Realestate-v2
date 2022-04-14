@@ -49,6 +49,7 @@
 							</label>
 							<input
 								name="name"
+								id="name"
 								value={site.name}
 								type="text"
 								placeholder="site name"
@@ -63,6 +64,7 @@
 							</label>
 							<input
 								name="location"
+								id="location"
 								value={site.location}
 								type="text"
 								placeholder="location"

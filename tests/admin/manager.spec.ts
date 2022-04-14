@@ -2,9 +2,9 @@ import { expect, test } from '@playwright/test';
 
 test.use({ storageState: 'tests/admin/storageState.json' });
 
-test.describe('Admin', () => {
+test.describe('Admin::Manager Workflow', () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto('https://localhost:3000');
+		await page.goto('https://localhost:4000');
 		expect(page.url()).toContain('/admin');
 	});
 
@@ -222,6 +222,47 @@ test.describe('Admin', () => {
 		// Wait for redirect
 
 		expect(page.url()).toContain('/admin');
+
+		// Check if manager username is updated
+		expect(
+			await page.locator('main table > tbody > tr:nth-child(1) > td:nth-child(3)').textContent()
+		).toBe('temp0');
+	});
+
+	test('Change Manager Password', async ({ page }) => {
+		await page.click('main table > tbody > tr:nth-child(1) > th.actions');
+
+		await page.click('a.manager-change-password');
+
+		expect(page.url()).toContain('/admin/manager/changePassword/');
+
+		// Form
+		const newPasswordEl = page.locator('input#newPassword');
+		const confirmNewPasswordEl = page.locator('input#confirmNewPassword');
+		const submitBtnEl = page.locator('button[type="submit"]');
+
+		expect(newPasswordEl).toBeVisible();
+		expect(newPasswordEl).toBeEnabled();
+
+		expect(confirmNewPasswordEl).toBeVisible();
+		expect(confirmNewPasswordEl).toBeEnabled();
+
+		expect(submitBtnEl).toBeVisible();
+		expect(submitBtnEl).toBeEnabled();
+
+		// Filling data
+		await newPasswordEl.fill('somepassword');
+		expect(newPasswordEl).toHaveValue('somepassword');
+
+		await confirmNewPasswordEl.fill('somepassword');
+		expect(confirmNewPasswordEl).toHaveValue('somepassword');
+
+		// Submit Form
+		await submitBtnEl.click();
+
+		// Wait for redirect
+
+		expect(page.url().endsWith('/admin')).toBe(true);
 
 		// Check if manager username is updated
 		expect(

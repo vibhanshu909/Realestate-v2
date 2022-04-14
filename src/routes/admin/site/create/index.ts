@@ -78,7 +78,7 @@ export const post: RequestHandler = async ({ request, locals }) => {
 			return {
 				status: 302,
 				headers: {
-					location: '/admin'
+					location: '/admin/sites/1'
 				}
 			};
 		} else {

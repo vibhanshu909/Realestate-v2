@@ -56,6 +56,7 @@
 							</label>
 							<input
 								name="newPassword"
+								id="newPassword"
 								type="password"
 								placeholder="New Password"
 								class="input input-bordered"
@@ -69,6 +70,7 @@
 							</label>
 							<input
 								name="confirmNewPassword"
+								id="confirmNewPassword"
 								type="password"
 								placeholder="Confirm New Password"
 								class="input input-bordered"

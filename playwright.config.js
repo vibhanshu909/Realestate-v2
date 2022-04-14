@@ -6,8 +6,8 @@ const config = {
 		ignoreHTTPSErrors: true
 	},
 	webServer: {
-		command: 'npm run dev -- --https',
-		port: 3000
+		command: 'npm run dev -- --https --port 4000',
+		port: 4000
 	}
 };
 

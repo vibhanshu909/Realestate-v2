@@ -16,7 +16,7 @@ export const get: RequestHandler = async ({ params }) => {
 	};
 };
 
-export const post: RequestHandler = async ({ params, request, locals }) => {
+export const post: RequestHandler = async ({ params, request, locals, url }) => {
 	const { user }: { user: User } = locals as any;
 	try {
 		const formData = await request.formData();
@@ -49,7 +49,7 @@ export const post: RequestHandler = async ({ params, request, locals }) => {
 		return {
 			status: 302,
 			headers: {
-				location: '/admin'
+				location: `/admin/sites/${url.searchParams.get('page') || '1'}`
 			}
 		};
 	} catch (error) {

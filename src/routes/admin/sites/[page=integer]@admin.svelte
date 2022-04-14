@@ -39,7 +39,7 @@
 				} = site}
 				<tr>
 					<th class="actions bg-base-100 p-0">
-						<SiteActions {site} />
+						<SiteActions {site} {page} />
 					</th>
 					<td>{formatDate(createdAt)}</td>
 					<td>{name}</td>

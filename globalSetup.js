@@ -6,7 +6,7 @@ import { chromium, expect } from '@playwright/test';
  */
 const loginFn = async (page, credential) => {
 	const { username, password } = credential;
-	await page.goto('https://localhost:3000');
+	await page.goto('https://localhost:4000');
 
 	const usernameEl = page.locator('input#username');
 	const passwordEl = page.locator('input#password');
