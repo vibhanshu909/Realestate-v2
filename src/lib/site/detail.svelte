@@ -58,12 +58,14 @@
 		</thead>
 		<tbody>
 			<tr>
+				<th />
 				{#each new Array(11) as _}
 					<th>Quantity</th>
 					<th>Price({kconstants.currencySymbol})</th>
 				{/each}
 			</tr>
 			<tr>
+				<th />
 				<td>{mistri.quantity}</td>
 				<td>{toCurrency(mistri.cost)}</td>
 				<td>{labour.quantity}</td>

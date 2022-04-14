@@ -91,7 +91,7 @@ test.describe('Admin::Site Workflow', () => {
 
 		const totalTable = page.locator('main table.table').first();
 		expect(await totalTable.locator('tbody > tr').count()).toBe(2);
-		expect(await totalTable.locator('tbody > tr:nth-child(1) > th').count()).toBe(22);
+		expect(await totalTable.locator('tbody > tr:nth-child(1) > th').count()).toBe(22 + 1);
 		expect(await totalTable.locator('tbody > tr:nth-child(2) > td').count()).toBe(22);
 		expect(
 			await totalTable.locator('tbody > tr:nth-child(2) > td').allTextContents()
