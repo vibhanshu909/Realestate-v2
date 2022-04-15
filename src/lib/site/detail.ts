@@ -1,7 +1,9 @@
 import { prisma } from '$lib/db';
+import type { User } from '@prisma/client';
 import type { RequestHandler } from '@sveltejs/kit';
 
-export const get: RequestHandler = async ({ params }) => {
+export const get: RequestHandler = async ({ params, locals }) => {
+	const user: User = (locals as any).user;
 	if (!params?.siteId) {
 		return {
 			status: 404,
@@ -12,7 +14,8 @@ export const get: RequestHandler = async ({ params }) => {
 	} else {
 		const site = await prisma.site.findFirst({
 			where: {
-				id: params.siteId
+				id: params.siteId,
+				...(user.isAdmin ? {} : { managerId: user.id })
 			},
 			include: {
 				manager: true

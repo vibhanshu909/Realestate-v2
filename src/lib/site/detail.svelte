@@ -9,6 +9,7 @@
 	};
 	export let entries: SiteEntry[];
 	export let totalEntries: number;
+	export let redirect: string;
 	const { mistri, labour, eit, morang, baalu, githi, cement, saria, dust, other, other2 } =
 		site.total;
 </script>
@@ -152,7 +153,7 @@
 {#if !$session.isAdmin}
 	<a
 		id="create-site-entry"
-		href={`/manager/siteEntry/create/${site.id}`}
+		href={`/manager/siteEntry/create/${site.id}?redirect=${redirect}`}
 		class="btn btn-primary btn-circle btn-lg fixed bottom-12 right-0 mr-2"
 	>
 		<svg

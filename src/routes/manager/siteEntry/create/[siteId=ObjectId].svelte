@@ -40,6 +40,9 @@
 					method="POST"
 					bind:this={form}
 					on:submit|preventDefault={() => {
+						// for (let [key, value] of new FormData(document.forms[0]).entries()) {
+						// 	console.log(`${key}: ${value}`);
+						// }
 						submitting = true;
 						form.submit();
 					}}
@@ -73,10 +76,10 @@
 							<Input name="dust" />
 							<div class="divider" />
 
-							<Input name="other" />
+							<Input name="other" quantityType="text" />
 							<div class="divider" />
 
-							<Input name="other2" label="Other 2" />
+							<Input name="other2" label="Other 2" quantityType="text" />
 							<div class="divider" />
 
 							<div class="form-control">

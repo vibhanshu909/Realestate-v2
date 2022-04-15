@@ -9,4 +9,4 @@
 	export let totalEntries: number;
 </script>
 
-<Detail {site} {entries} {totalEntries} />
+<Detail {site} {entries} {totalEntries} redirect={`/manager/site/detail/${site.id}`} />

@@ -105,13 +105,13 @@ model SiteEntry {
 
 type SiteEntryItem {
   cost     BigInt
-  paid     Boolean
+  paid     Boolean @default(false)
   quantity BigInt
 }
 
 type SiteEntryOtherItem {
   cost     BigInt
-  paid     Boolean
+  paid     Boolean @default(false)
   quantity String?
 }
 

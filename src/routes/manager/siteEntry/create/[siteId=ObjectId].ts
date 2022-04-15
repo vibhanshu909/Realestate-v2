@@ -25,53 +25,91 @@ export const get: RequestHandler = async ({ params }) => {
 	}
 };
 
-export const post: RequestHandler = async ({ params, request, locals }) => {
+export const post: RequestHandler = async ({ params, request, locals, url }) => {
 	const { user }: { user: User } = locals as any;
 	try {
 		const site = await prisma.site.findFirst({ where: { id: params?.siteId } });
 		if (site) {
 			const formData = await request.formData();
-			const data: Prisma.SiteEntryCreateInput = {
-				site: {
-					connect: { id: params.siteId }
-				},
-				managerSpentAmount: 0n,
-				total: 0n
-			} as any;
+			const siteEntry: Prisma.SiteEntryCreateInput & { total: bigint; managerSpentAmount: bigint } =
+				{
+					site: {
+						connect: { id: params.siteId }
+					},
+					managerSpentAmount: 0n,
+					total: 0n
+				} as any;
 			for (let item of formData.entries()) {
 				const [key, value] = item;
-				if (key === 'note') {
-					data.note = value;
-					continue;
+				console.log(key, value);
+				switch (key) {
+					case 'note':
+						siteEntry.note = value;
+						break;
+					default:
+						const [field, subfield] = key.split('.');
+						!siteEntry[field] && (siteEntry[field] = {});
+						switch (field) {
+							case 'other':
+							case 'other2':
+								switch (subfield) {
+									case 'paid':
+										siteEntry[field].paid = true;
+										siteEntry.managerSpentAmount += siteEntry[field].cost;
+										break;
+									case 'cost':
+										siteEntry[field].cost = BigInt(value);
+										siteEntry.total += siteEntry[field].cost;
+										site.total[field] += siteEntry[field].cost;
+										break;
+									case 'quantity':
+										siteEntry[field].quantity = value;
+										break;
+								}
+								break;
+							default:
+								switch (subfield) {
+									case 'paid':
+										siteEntry[field].paid = true;
+										siteEntry.managerSpentAmount += siteEntry[field].cost;
+										break;
+									case 'cost':
+										siteEntry[field].cost = BigInt(value);
+										siteEntry.total += siteEntry[field].cost;
+										site.total[field].cost += siteEntry[field].cost;
+										break;
+									case 'quantity':
+										siteEntry[field].quantity = BigInt(value);
+										site.total[field].quantity += siteEntry[field].quantity;
+										break;
+								}
+						}
 				}
-				const [field, subfield] = key.split('.');
-				if (subfield === 'paid') {
-					data[field][subfield] = true;
-					data.managerSpentAmount = (data.managerSpentAmount as bigint) + BigInt(data[field].cost);
-				} else {
-					data[field][subfield] = BigInt(value);
-					site.total[field][subfield] += data[field][subfield];
-					if (subfield === 'cost') {
-						data.total = (data.total as bigint) + BigInt(value);
+			}
+			if (siteEntry.total === 0n) {
+				return {
+					status: 400,
+					body: {
+						errors: ['Total cost must be greater than 0']
 					}
-				}
+				};
 			}
 			await prisma.$transaction([
 				prisma.siteEntry.create({
-					data
+					data: siteEntry
 				}),
 				prisma.user.update({
 					where: {
 						id: user.id
 					},
 					data: {
-						spent: user.spent + (data.managerSpentAmount as bigint),
-						balance: user.balance - (data.managerSpentAmount as bigint),
+						spent: user.spent + (siteEntry.managerSpentAmount as bigint),
+						balance: user.balance - (siteEntry.managerSpentAmount as bigint),
 						history: {
 							create: {
-								amount: data.managerSpentAmount,
+								amount: siteEntry.managerSpentAmount,
 								type: HistoryType.DEBIT,
-								balance: user.balance - (data.managerSpentAmount as bigint),
+								balance: user.balance - (siteEntry.managerSpentAmount as bigint),
 								note: `For: "${site.name}"`
 							}
 						}
@@ -82,6 +120,8 @@ export const post: RequestHandler = async ({ params, request, locals }) => {
 						id: site.id
 					},
 					data: {
+						managerSpentAmount: site.managerSpentAmount + (siteEntry.managerSpentAmount as bigint),
+						cost: site.cost + (siteEntry.total as bigint),
 						total: site.total
 					}
 				}),
@@ -95,7 +135,7 @@ export const post: RequestHandler = async ({ params, request, locals }) => {
 			return {
 				status: 302,
 				headers: {
-					location: '/admin'
+					location: user.isAdmin ? '/admin' : url.searchParams.get('redirect') || '/'
 				}
 			};
 		} else {
