@@ -1,7 +1,8 @@
 <script context="module" lang="ts">
-	import SiteActions from '$lib/admin/siteActions.svelte';
+	import SiteActionModals from '$lib/admin/SiteActionModals.svelte';
 	import SiteTableHeader from '$lib/admin/SiteTableHeader.svelte';
 	import formatDate from '$lib/date';
+	import ModalButton from '$lib/ModalButton.svelte';
 	import { toCurrency } from '$lib/toCurrency';
 	import type { Site } from '@prisma/client';
 </script>
@@ -39,7 +40,7 @@
 				} = site}
 				<tr>
 					<th class="actions bg-base-100 p-0">
-						<SiteActions {site} {page} />
+						<ModalButton id={site.id} />
 					</th>
 					<td>{formatDate(createdAt)}</td>
 					<td>{name}</td>
@@ -68,6 +69,10 @@
 		</div>
 	</div>
 {/if}
+
+{#each sites as site (site.id)}
+	<SiteActionModals {site} {page} />
+{/each}
 <a
 	id="create-site"
 	href="/admin/site/create"

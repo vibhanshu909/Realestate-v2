@@ -1,7 +1,8 @@
 <script context="module" lang="ts">
-	import UserActions from '$lib/admin/userActions.svelte';
+	import UserActionModals from '$lib/admin/UserActionModals.svelte';
 	import UserTableHeader from '$lib/admin/UserTableHeader.svelte';
 	import formatDate from '$lib/date';
+	import ModalButton from '$lib/ModalButton.svelte';
 	import { toCurrency } from '$lib/toCurrency';
 	import type { User } from '@prisma/client';
 </script>
@@ -35,7 +36,7 @@
 					{@const balance = BigInt(totalReceivedAmount) - BigInt(spent)}
 					<tr>
 						<th class="actions bg-base-100 p-0">
-							<UserActions {user} />
+							<ModalButton id={user.id} />
 						</th>
 						<td>{formatDate(createdAt)}</td>
 						<td>{username}</td>
@@ -53,7 +54,9 @@
 			</tfoot>
 		</table>
 	</div>
-
+	{#each users as user (user.id)}
+		<UserActionModals {user} />
+	{/each}
 	<a
 		id="create-manager"
 		href="/admin/manager/create"

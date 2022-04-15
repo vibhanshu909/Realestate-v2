@@ -2,7 +2,8 @@
 	import formatDate from '$lib/date';
 	import { kconstants } from '$lib/kconstants';
 	import ManagerSiteTableHeader from '$lib/manager/ManagerSiteTableHeader.svelte';
-	import ManagerSiteActions from '$lib/manager/siteActions.svelte';
+	import SiteActionModals from '$lib/manager/SiteActionModals.svelte';
+	import ModalButton from '$lib/ModalButton.svelte';
 	import { toCurrency } from '$lib/toCurrency';
 	import type { Site, User } from '@prisma/client';
 </script>
@@ -60,7 +61,7 @@
 				} = site}
 				<tr>
 					<th class="actions bg-base-100 p-0">
-						<ManagerSiteActions {site} />
+						<ModalButton id={site.id} />
 					</th>
 					<td>{formatDate(createdAt)}</td>
 					<td>{name}</td>
@@ -77,3 +78,7 @@
 		</tfoot>
 	</table>
 </div>
+
+{#each sites as site}
+	<SiteActionModals {site} />
+{/each}
