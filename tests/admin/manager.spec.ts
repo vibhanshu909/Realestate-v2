@@ -274,6 +274,7 @@ test.describe('Admin::Manager Workflow', () => {
 		await page.click('main table > tbody > tr:nth-child(1) > th.actions');
 
 		await page.click('a.manager-delete');
+		await page.click('a.delete-action-yes');
 		// Wait for redirect
 
 		expect(page.url()).toContain('/admin');

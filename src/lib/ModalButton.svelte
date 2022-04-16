@@ -1,8 +1,8 @@
 <script lang="ts">
-	export let id: string;
+	export let htmlFor: string;
 </script>
 
-<label for={id} class="modal-button btn btn-ghost">
+<label for={htmlFor} class="modal-button btn btn-ghost">
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
 		class="h-5 w-5"

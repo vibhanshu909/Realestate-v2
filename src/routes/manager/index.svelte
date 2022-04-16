@@ -36,7 +36,7 @@
 	<div class="stat">
 		<div class="stat-title">Balance ({kconstants.currencySymbol})</div>
 		<div
-			class={`stat-value -lg:text-base ${BigInt(user.balance) < 0 ? 'text-error' : 'text-sucess'}`}
+			class={`stat-value -lg:text-base ${BigInt(user.balance) < 0 ? 'text-error' : 'text-accent'}`}
 		>
 			{toCurrency(user.balance)}
 		</div>
@@ -61,7 +61,7 @@
 				} = site}
 				<tr>
 					<th class="actions bg-base-100 p-0">
-						<ModalButton id={site.id} />
+						<ModalButton htmlFor={site.id} />
 					</th>
 					<td>{formatDate(createdAt)}</td>
 					<td>{name}</td>

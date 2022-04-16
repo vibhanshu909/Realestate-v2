@@ -36,7 +36,7 @@
 					{@const balance = BigInt(totalReceivedAmount) - BigInt(spent)}
 					<tr>
 						<th class="actions bg-base-100 p-0">
-							<ModalButton id={user.id} />
+							<ModalButton htmlFor={user.id} />
 						</th>
 						<td>{formatDate(createdAt)}</td>
 						<td>{username}</td>
@@ -45,7 +45,7 @@
 						<td>{toCurrency(totalSitesCost)}</td>
 						<td>{toCurrency(totalReceivedAmount)}</td>
 						<td>{toCurrency(spent)}</td>
-						<td class={balance < 0 ? 'text-error' : 'text-success'}>{toCurrency(balance)}</td>
+						<td class={balance < 0 ? 'text-error' : 'text-accent'}>{toCurrency(balance)}</td>
 					</tr>
 				{/each}
 			</tbody>

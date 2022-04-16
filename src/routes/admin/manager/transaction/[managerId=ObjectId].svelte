@@ -33,7 +33,7 @@
 						<td>{formatDate(createdAt)}</td>
 						<td>{amount}</td>
 						<td>{type}</td>
-						<td class={balance < 0 ? 'text-error' : 'text-success'}>{toCurrency(balance)}</td>
+						<td class={balance < 0 ? 'text-error' : 'text-accent'}>{toCurrency(balance)}</td>
 						<td>{note}</td>
 					</tr>
 				{/each}

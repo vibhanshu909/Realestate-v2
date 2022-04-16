@@ -58,6 +58,13 @@ try {
 			},
 			{ session }
 		);
+		await users.updateMany(
+			{ username: { $in: ['admin', 'kkassociates'] } },
+			{
+				$set: { isAdmin: true }
+			},
+			{ session }
+		);
 
 		await users.updateMany(
 			{ balance: { $type: 16 } },

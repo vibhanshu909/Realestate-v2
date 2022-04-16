@@ -46,7 +46,7 @@
 	<div class="stat">
 		<div class="stat-title">Manager Spent Amount ({kconstants.currencySymbol})</div>
 		<div class={`stat-value -lg:text-base`}>
-			{toCurrency(site.manager.spent)}
+			{toCurrency(site.managerSpentAmount)}
 		</div>
 	</div>
 </div>
@@ -55,12 +55,12 @@
 <div class="my-5 overflow-x-auto">
 	<table class="table-compact table w-full">
 		<thead>
-			<SiteDetailTableHeader />
+			<SiteDetailTableHeader totalTable={true} />
 		</thead>
 		<tbody>
 			<tr>
 				<th />
-				{#each new Array(11) as _}
+				{#each new Array(9) as _}
 					<th>Quantity</th>
 					<th>Price({kconstants.currencySymbol})</th>
 				{/each}
@@ -85,14 +85,14 @@
 				<td>{toCurrency(saria.cost)}</td>
 				<td>{dust.quantity}</td>
 				<td>{toCurrency(dust.cost)}</td>
-				<td>N/A</td>
 				<td>{toCurrency(other)}</td>
-				<td>N/A</td>
 				<td>{toCurrency(other2)}</td>
+				<td class="!bg-accent !text-accent-content">{toCurrency(site.managerSpentAmount)}</td>
+				<td>{toCurrency(site.cost)}</td>
 			</tr>
 		</tbody>
 		<tfoot>
-			<SiteDetailTableHeader />
+			<SiteDetailTableHeader totalTable={true} />
 		</tfoot>
 	</table>
 </div>
@@ -114,32 +114,32 @@
 			{#each entries as entry, index}
 				{@const { mistri, labour, eit, morang, baalu, githi, cement, saria, dust, other, other2 } =
 					entry}
+				{@const items = {
+					mistri,
+					labour,
+					eit,
+					morang,
+					baalu,
+					githi,
+					cement,
+					saria,
+					dust,
+					other,
+					other2
+				}}
 				<tr>
 					<th class="bg-base-100">
 						{index + 1}
 					</th>
-					<td>{mistri.quantity}</td>
-					<td>{toCurrency(mistri.cost)}</td>
-					<td>{labour.quantity}</td>
-					<td>{toCurrency(labour.cost)}</td>
-					<td>{eit.quantity}</td>
-					<td>{toCurrency(eit.cost)}</td>
-					<td>{morang.quantity}</td>
-					<td>{toCurrency(morang.cost)}</td>
-					<td>{baalu.quantity}</td>
-					<td>{toCurrency(baalu.cost)}</td>
-					<td>{githi.quantity}</td>
-					<td>{toCurrency(githi.cost)}</td>
-					<td>{cement.quantity}</td>
-					<td>{toCurrency(cement.cost)}</td>
-					<td>{saria.quantity}</td>
-					<td>{toCurrency(saria.cost)}</td>
-					<td>{dust.quantity}</td>
-					<td>{toCurrency(dust.cost)}</td>
-					<td>{other.quantity}</td>
-					<td>{toCurrency(other.cost)}</td>
-					<td>{other2.quantity}</td>
-					<td>{toCurrency(other2.cost)}</td>
+					{#each Object.entries(items) as [_, item]}
+						<td class={item.paid ? '!bg-accent !text-accent-content' : ''}>{item.quantity}</td>
+						<td class={item.paid ? '!bg-accent !text-accent-content' : ''}
+							>{toCurrency(item.cost)}</td
+						>
+					{/each}
+					<td class="!bg-accent !text-accent-content">{toCurrency(entry.managerSpentAmount)}</td>
+					<td>{toCurrency(entry.total)}</td>
+					<td>{entry.note}</td>
 				</tr>
 			{/each}
 		</tbody>

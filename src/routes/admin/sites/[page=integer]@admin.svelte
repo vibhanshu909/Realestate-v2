@@ -40,14 +40,14 @@
 				} = site}
 				<tr>
 					<th class="actions bg-base-100 p-0">
-						<ModalButton id={site.id} />
+						<ModalButton htmlFor={site.id} />
 					</th>
 					<td>{formatDate(createdAt)}</td>
 					<td>{name}</td>
 					<td>{location}</td>
 					<td>{totalEntries}</td>
 					<td>{formatDate(updatedAt)}</td>
-					<td class="text-success">{username}</td>
+					<td class="text-accent">{username}</td>
 					<td>{toCurrency(managerSpentAmount)}</td>
 					<td>{toCurrency(cost)}</td>
 				</tr>

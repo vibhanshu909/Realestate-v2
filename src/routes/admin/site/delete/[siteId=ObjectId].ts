@@ -8,9 +8,12 @@ export const get: RequestHandler = async ({ params, locals, url }) => {
 	if (params?.siteId) {
 		if (
 			await prisma.$transaction([
-				prisma.site.delete({
+				prisma.site.update({
 					where: {
 						id: params.siteId
+					},
+					data: {
+						isDeleted: true
 					}
 				}),
 				performActivity({

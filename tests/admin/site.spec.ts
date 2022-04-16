@@ -91,7 +91,7 @@ test.describe('Admin::Site Workflow', () => {
 
 		const totalTable = page.locator('main table.table').first();
 		expect(await totalTable.locator('tbody > tr').count()).toBe(2);
-		expect(await totalTable.locator('tbody > tr:nth-child(1) > th').count()).toBe(22 + 1);
+		expect(await totalTable.locator('tbody > tr:nth-child(1) > th').count()).toBe(18 + 1);
 		expect(await totalTable.locator('tbody > tr:nth-child(2) > td').count()).toBe(22);
 		expect(
 			await totalTable.locator('tbody > tr:nth-child(2) > td').allTextContents()
@@ -114,9 +114,9 @@ test.describe('Admin::Site Workflow', () => {
 			'0',
 			'0',
 			'0',
-			'N/A',
 			'0',
-			'N/A',
+			'0',
+			'0',
 			'0'
 		]);
 
@@ -178,6 +178,7 @@ test.describe('Admin::Site Workflow', () => {
 		await page.click('main table > tbody > tr:nth-child(1) > th.actions');
 
 		await page.click('a.site-delete');
+		await page.click('a.delete-action-yes');
 		// Wait for redirect
 
 		// Check if site is deleted
