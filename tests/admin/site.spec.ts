@@ -178,6 +178,7 @@ test.describe('Admin::Site Workflow', () => {
 		await page.click('main table > tbody > tr:nth-child(1) > th.actions');
 
 		await page.click('a.site-delete');
+		expect(page.locator('a.delete-action-yes').first()).toBeVisible();
 		await page.click('a.delete-action-yes');
 		// Wait for redirect
 

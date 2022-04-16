@@ -94,7 +94,7 @@
 						<!-- The button to open modal -->
 
 						<a
-							href="#delete-confirmation-dialog"
+							href="#delete-confirmation-dialog-${user.id}"
 							class="manager-delete flex w-full gap-3 text-error"
 						>
 							<svg
@@ -119,7 +119,7 @@
 		</div>
 	</label>
 	<!-- Put this part before </body> tag -->
-	<div class="modal" id="delete-confirmation-dialog">
+	<div class="modal" id="delete-confirmation-dialog-${user.id}">
 		<div class="modal-box ring ring-secondary">
 			<h3 class="text-lg font-bold">Are you sure?</h3>
 			<p class="py-4">

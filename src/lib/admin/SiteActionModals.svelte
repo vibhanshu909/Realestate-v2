@@ -60,7 +60,7 @@
 					</li>
 					<li>
 						<a
-							href="#site-delete-confirmation-dialog"
+							href="#site-delete-confirmation-dialog-{site.id}"
 							class="site-delete flex w-full gap-3 text-error"
 						>
 							<svg
@@ -85,7 +85,7 @@
 		</div>
 	</label>
 	<!-- Put this part before </body> tag -->
-	<div class="modal" id="site-delete-confirmation-dialog">
+	<div class="modal" id="site-delete-confirmation-dialog-{site.id}">
 		<div class="modal-box ring ring-secondary">
 			<h3 class="text-lg font-bold">Are you sure?</h3>
 			<p class="py-4">

@@ -48,7 +48,7 @@
 					<td>{totalEntries}</td>
 					<td>{formatDate(updatedAt)}</td>
 					<td class="text-accent">{username}</td>
-					<td>{toCurrency(managerSpentAmount)}</td>
+					<td class="text-accent">{toCurrency(managerSpentAmount)}</td>
 					<td>{toCurrency(cost)}</td>
 				</tr>
 			{/each}

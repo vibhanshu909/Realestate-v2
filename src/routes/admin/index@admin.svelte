@@ -44,7 +44,7 @@
 						<td>{totalSites}</td>
 						<td>{toCurrency(totalSitesCost)}</td>
 						<td>{toCurrency(totalReceivedAmount)}</td>
-						<td>{toCurrency(spent)}</td>
+						<td class="text-accent">{toCurrency(spent)}</td>
 						<td class={balance < 0 ? 'text-error' : 'text-accent'}>{toCurrency(balance)}</td>
 					</tr>
 				{/each}
