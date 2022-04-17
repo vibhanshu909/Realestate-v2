@@ -12,6 +12,10 @@
 	export let redirect: string;
 	const { mistri, labour, eit, morang, baalu, githi, cement, saria, dust, other, other2 } =
 		site.total;
+
+	export let routePrefix: string;
+	export let pageCount: number;
+	export let page: number;
 </script>
 
 <div
@@ -148,6 +152,20 @@
 		</tfoot>
 	</table>
 </div>
+{#if pageCount > 1}
+	<div class="flex items-center justify-center py-5">
+		<div class="btn-group flex justify-center gap-y-1">
+			{#each new Array(pageCount).fill(0) as _, i}
+				{@const p = i + 1}
+				<a
+					href={`${routePrefix}/site/detail/${site.id}/${p}`}
+					class="btn"
+					class:btn-active={p === page}>{p}</a
+				>
+			{/each}
+		</div>
+	</div>
+{/if}
 
 <!-- Create Site entry Button -->
 {#if !$session.isAdmin}

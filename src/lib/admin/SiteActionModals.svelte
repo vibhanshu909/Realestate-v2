@@ -16,7 +16,7 @@
 			<div class="modal-action contents">
 				<ul class="menu bg-base-100">
 					<li>
-						<a href={`/admin/site/detail/${site.id}`} class="site-view">
+						<a href={`/admin/site/detail/${site.id}/1`} class="site-view">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								class="h-6 w-6"

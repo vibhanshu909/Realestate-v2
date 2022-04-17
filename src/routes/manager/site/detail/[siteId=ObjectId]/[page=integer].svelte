@@ -7,6 +7,17 @@
 	};
 	export let entries: SiteEntry[];
 	export let totalEntries: number;
+
+	export let pageCount: number;
+	export let page: number;
 </script>
 
-<Detail {site} {entries} {totalEntries} redirect={`/manager/site/detail/${site.id}`} />
+<Detail
+	routePrefix="/manager"
+	{page}
+	{pageCount}
+	{site}
+	{entries}
+	{totalEntries}
+	redirect={`/manager/site/detail/${site.id}/1`}
+/>
