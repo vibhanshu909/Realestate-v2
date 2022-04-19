@@ -67,7 +67,8 @@ export const post: RequestHandler = async ({ params, request, locals }) => {
 				performActivity({
 					user,
 					activity: 'Credit Manager',
-					arguments: params,
+					params,
+					formData,
 					result: {}
 				})
 			]);

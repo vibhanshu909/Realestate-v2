@@ -42,7 +42,8 @@ export const post: RequestHandler = async ({ params, request, locals, url }) => 
 			performActivity({
 				user,
 				activity: 'Edit/Update Site',
-				arguments: params,
+				params,
+				formData,
 				result: {}
 			})
 		]);

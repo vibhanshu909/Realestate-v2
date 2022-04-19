@@ -46,7 +46,8 @@ export const post: RequestHandler = async ({ params, request, locals }) => {
 				performActivity({
 					user,
 					activity: 'Change Password',
-					arguments: params,
+					params,
+					formData,
 					result: {}
 				})
 			]);

@@ -25,7 +25,7 @@ export const post: RequestHandler = async ({ request }) => {
 				await performActivity({
 					user: { username },
 					activity: 'Login',
-					arguments: {},
+					formData,
 					result: {}
 				});
 				return {

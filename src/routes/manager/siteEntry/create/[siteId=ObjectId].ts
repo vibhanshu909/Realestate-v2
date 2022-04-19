@@ -128,7 +128,8 @@ export const post: RequestHandler = async ({ params, request, locals, url }) => 
 				performActivity({
 					user,
 					activity: 'Create Site Entry',
-					arguments: params,
+					params,
+					formData,
 					result: {}
 				})
 			]);

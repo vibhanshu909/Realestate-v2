@@ -71,7 +71,7 @@ export const post: RequestHandler = async ({ request, locals }) => {
 				performActivity({
 					user,
 					activity: 'Create Site',
-					arguments: {},
+					formData,
 					result: {}
 				})
 			]);

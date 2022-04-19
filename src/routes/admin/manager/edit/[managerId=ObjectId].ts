@@ -39,7 +39,8 @@ export const post: RequestHandler = async ({ params, request, locals }) => {
 					performActivity({
 						user,
 						activity: 'Edit/Update Manager',
-						arguments: params,
+						params,
+						formData,
 						result: {}
 					})
 				]);

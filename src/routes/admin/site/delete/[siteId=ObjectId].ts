@@ -19,7 +19,7 @@ export const get: RequestHandler = async ({ params, locals, url }) => {
 				performActivity({
 					user,
 					activity: 'Delete Site',
-					arguments: params,
+					params,
 					result: {}
 				})
 			])

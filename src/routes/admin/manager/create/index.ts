@@ -27,7 +27,7 @@ export const post: RequestHandler = async ({ request, locals }) => {
 				performActivity({
 					user,
 					activity: 'Create New Manager',
-					arguments: {},
+					formData,
 					result: {}
 				})
 			]);

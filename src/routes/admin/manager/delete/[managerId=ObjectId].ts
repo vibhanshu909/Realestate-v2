@@ -16,7 +16,7 @@ export const get: RequestHandler = async ({ params, locals }) => {
 				performActivity({
 					user,
 					activity: 'Delete Manager',
-					arguments: params,
+					params,
 					result: {}
 				})
 			])
