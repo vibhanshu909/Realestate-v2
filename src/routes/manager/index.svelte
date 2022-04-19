@@ -16,6 +16,9 @@
 			siteEntries: number;
 		};
 	})[];
+
+	export let pageCount: number;
+	export let page: number;
 </script>
 
 <div
@@ -68,7 +71,7 @@
 					<td>{location}</td>
 					<td>{totalEntries}</td>
 					<td>{formatDate(updatedAt)}</td>
-					<td>{toCurrency(managerSpentAmount)}</td>
+					<td class="text-accent">{toCurrency(managerSpentAmount)}</td>
 					<td>{toCurrency(cost)}</td>
 				</tr>
 			{/each}
@@ -78,6 +81,19 @@
 		</tfoot>
 	</table>
 </div>
+
+{#if pageCount > 1}
+	<div class="flex items-center justify-center py-5">
+		<div class="btn-group flex justify-center gap-y-1">
+			{#each new Array(pageCount).fill(0) as _, i}
+				{@const p = i + 1}
+				<a href={`/manager${p === 1 ? '' : '?page=' + p}`} class="btn" class:btn-active={p === page}
+					>{p}</a
+				>
+			{/each}
+		</div>
+	</div>
+{/if}
 
 {#each sites as site}
 	<SiteActionModals {site} />

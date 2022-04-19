@@ -2,21 +2,28 @@ import { prisma } from '$lib/db';
 import type { User } from '@prisma/client';
 import type { RequestHandler } from '@sveltejs/kit';
 
-export const get: RequestHandler = async ({ locals }) => {
+const take = 10;
+
+export const get: RequestHandler = async ({ locals, url }) => {
+	const page = Number(url.searchParams.get('page') || '1');
 	const user: User = (locals as any).user;
 	const [siteCount, sites] = await Promise.all([
-		await prisma.site.count({ where: { managerId: user.id } }),
-		await prisma.site.findMany({
+		prisma.site.count({ where: { managerId: user.id } }),
+		prisma.site.findMany({
 			where: { managerId: user.id, isDeleted: false },
-			orderBy: { createdAt: 'desc' },
+			orderBy: { updatedAt: 'desc' },
 			include: {
 				_count: { select: { siteEntries: true } }
-			}
+			},
+			take,
+			skip: take * (page - 1)
 		})
 	]);
 	return {
 		status: 200,
 		body: {
+			pageCount: Math.ceil(siteCount / take),
+			page,
 			user: user,
 			siteCount,
 			sites
