@@ -52,7 +52,7 @@
 					<fieldset disabled={submitting}>
 						<div class="form-control">
 							<label class="label" for="newPassword">
-								<span class="label-text">New Password</span>
+								<span class="label-text">New Password*</span>
 							</label>
 							<input
 								name="newPassword"
@@ -66,7 +66,7 @@
 						</div>
 						<div class="form-control">
 							<label class="label" for="confirmNewPassword">
-								<span class="label-text">Confirm Password</span>
+								<span class="label-text">Confirm Password*</span>
 							</label>
 							<input
 								name="confirmNewPassword"

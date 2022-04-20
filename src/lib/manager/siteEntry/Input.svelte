@@ -6,7 +6,7 @@
 
 <div class="form-control">
 	<label class="label" for={name}>
-		<span class="label-text">{label}</span>
+		<span class="label-text">{label}*</span>
 	</label>
 	<input
 		name={name + '.quantity'}

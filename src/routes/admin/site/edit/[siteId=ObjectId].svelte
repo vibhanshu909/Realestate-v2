@@ -45,7 +45,7 @@
 					<fieldset disabled={submitting}>
 						<div class="form-control">
 							<label class="label" for="name">
-								<span class="label-text">Site Name</span>
+								<span class="label-text">Site Name*</span>
 							</label>
 							<input
 								name="name"
@@ -60,7 +60,7 @@
 						</div>
 						<div class="form-control">
 							<label class="label" for="location">
-								<span class="label-text">Location</span>
+								<span class="label-text">Location*</span>
 							</label>
 							<input
 								name="location"

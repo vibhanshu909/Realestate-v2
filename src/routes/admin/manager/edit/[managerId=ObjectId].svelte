@@ -46,7 +46,7 @@
 					<fieldset disabled={submitting}>
 						<div class="form-control">
 							<label class="label" for="username">
-								<span class="label-text">Username</span>
+								<span class="label-text">Username*</span>
 							</label>
 							<input
 								name="username"
@@ -61,7 +61,7 @@
 						</div>
 						<div class="form-control">
 							<label class="label" for="contact">
-								<span class="label-text">Contact</span>
+								<span class="label-text">Contact*</span>
 							</label>
 							<input
 								name="contact"

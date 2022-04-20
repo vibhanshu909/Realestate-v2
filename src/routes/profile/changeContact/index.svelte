@@ -50,7 +50,7 @@
 					<fieldset disabled={submitting}>
 						<div class="form-control">
 							<label class="label" for="contact">
-								<span class="label-text">Contact</span>
+								<span class="label-text">Contact*</span>
 							</label>
 							<input
 								name="contact"
