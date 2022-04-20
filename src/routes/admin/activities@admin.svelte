@@ -1,10 +1,8 @@
 <script lang="ts" context="module">
+	import Pagination from '$lib/Pagination.svelte';
 	import type { Activity } from '@prisma/client';
 	import { formatDistance } from 'date-fns';
-	const maxPage = 5;
-</script>
 
-<script lang="ts">
 	export let activities: Activity[] = [];
 	export let superAdmin: boolean = false;
 
@@ -49,23 +47,4 @@
 	</ul>
 </div>
 
-{#if pageCount > 1}
-	<div class="flex items-center justify-center py-5">
-		<div class="btn-group flex justify-center gap-y-1">
-			{#each new Array(Math.min(pageCount, maxPage)).fill(0) as _, i}
-				{@const p = i + 1}
-				{@const last = p === maxPage}
-				{#if last}
-					<span class="self-end px-1">•••</span>
-					<a
-						href={`/admin/activities?page=${pageCount}`}
-						class="btn"
-						class:btn-active={pageCount === page}>{pageCount}</a
-					>
-				{:else}
-					<a href={`/admin/activities?page=${p}`} class="btn" class:btn-active={p === page}>{p}</a>
-				{/if}
-			{/each}
-		</div>
-	</div>
-{/if}
+<Pagination {page} {pageCount} getHref={(p) => `/admin/activities?page=${p}`} />

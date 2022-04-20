@@ -1,9 +1,11 @@
-<script lang="ts">
+<script lang="ts" context="module">
 	import { session } from '$app/stores';
 	import { kconstants } from '$lib/kconstants';
+	import Pagination from '$lib/Pagination.svelte';
 	import { toCurrency } from '$lib/toCurrency';
 	import type { Site, SiteEntry, User } from '@prisma/client';
 	import SiteDetailTableHeader from './SiteDetailTableHeader.svelte';
+
 	export let site: Site & {
 		manager: User;
 	};
@@ -152,20 +154,8 @@
 		</tfoot>
 	</table>
 </div>
-{#if pageCount > 1}
-	<div class="flex items-center justify-center py-5">
-		<div class="btn-group flex justify-center gap-y-1">
-			{#each new Array(pageCount).fill(0) as _, i}
-				{@const p = i + 1}
-				<a
-					href={`${routePrefix}/site/detail/${site.id}/${p}`}
-					class="btn"
-					class:btn-active={p === page}>{p}</a
-				>
-			{/each}
-		</div>
-	</div>
-{/if}
+
+<Pagination {page} {pageCount} getHref={(p) => `${routePrefix}/site/detail/${site.id}/${p}`} />
 
 <!-- Create Site entry Button -->
 {#if !$session.isAdmin}
