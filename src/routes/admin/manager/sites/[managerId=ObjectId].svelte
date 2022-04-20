@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SiteActionModals from '$lib/manager/SiteActionModals.svelte';
+	import SiteActionModals from '$lib/admin/SiteActionModals.svelte';
 	import ManagerSites from '$lib/manager/sites/index.svelte';
 	import type { Site, User } from '@prisma/client';
 	export let user: Omit<User, 'password'>;
@@ -14,6 +14,14 @@
 	export let page: number;
 </script>
 
-<ManagerSites {user} {siteCount} {sites} {pageCount} {page} let:site>
-	<SiteActionModals {site} />
+<ManagerSites
+	pathPrefix={`/admin/manager/sites/${user.id}`}
+	{user}
+	{siteCount}
+	{sites}
+	{pageCount}
+	{page}
+	let:site
+>
+	<SiteActionModals {site} {page} />
 </ManagerSites>
