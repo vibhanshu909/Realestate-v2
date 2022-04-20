@@ -21,8 +21,6 @@
 					<a href={getHref(pageCount)} class="btn" class:btn-active={pageCount === page}
 						>{pageCount}</a
 					>
-					<!-- {:else if page > 2}
-					<a href={getHref(p + 1)} class="btn" class:btn-active={p + 1 === page}>{p + 1}</a> -->
 				{:else}
 					<a href={getHref(p)} class="btn" class:btn-active={p === page}>{p}</a>
 				{/if}
