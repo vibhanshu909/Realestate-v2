@@ -5,15 +5,18 @@
 	import ModalButton from '$lib/ModalButton.svelte';
 	import { toCurrency } from '$lib/toCurrency';
 	import type { User } from '@prisma/client';
+	const maxPage = 5;
 </script>
 
 <script lang="ts">
-	export let users: (User & {
+	export let managers: (User & {
 		_count: {
 			sites: number;
 		};
 		totalSitesCost: bigint;
 	})[];
+	export let pageCount: number;
+	export let page: number;
 </script>
 
 <div class="overflow-x-auto">
@@ -22,7 +25,7 @@
 			<UserTableHeader />
 		</thead>
 		<tbody>
-			{#each users as user (user.id)}
+			{#each managers as user (user.id)}
 				{@const {
 					createdAt,
 					username,
@@ -53,14 +56,34 @@
 		</tfoot>
 	</table>
 </div>
-{#each users as user (user.id)}
-	<UserActionModals {user} />
+
+{#if pageCount > 1}
+	<div class="flex items-center justify-center py-5">
+		<div class="btn-group flex justify-center gap-y-1">
+			{#each new Array(Math.min(pageCount, maxPage)).fill(0) as _, i}
+				{@const p = i + 1}
+				{@const last = p === maxPage}
+				{#if last}
+					<span class="self-end px-1">•••</span>
+					<a href={`/admin/?page=${pageCount}`} class="btn" class:btn-active={pageCount === page}
+						>{pageCount}</a
+					>
+				{:else}
+					<a href={`/admin/?page=${p}`} class="btn" class:btn-active={p === page}>{p}</a>
+				{/if}
+			{/each}
+		</div>
+	</div>
+{/if}
+
+{#each managers as manager (manager.id)}
+	<UserActionModals user={manager} />
 {/each}
 
 <a
 	id="create-manager"
 	href="/admin/manager/create"
-	class="btn btn-circle btn-primary btn-lg sticky top-[83%] left-full mr-2"
+	class="btn btn-circle btn-primary btn-lg fixed bottom-12 right-0 mr-2"
 >
 	<svg
 		xmlns="http://www.w3.org/2000/svg"

@@ -6,6 +6,7 @@
 	import ModalButton from '$lib/ModalButton.svelte';
 	import { toCurrency } from '$lib/toCurrency';
 	import type { Site, User } from '@prisma/client';
+	const maxPage = 5;
 </script>
 
 <script lang="ts">
@@ -85,11 +86,17 @@
 {#if pageCount > 1}
 	<div class="flex items-center justify-center py-5">
 		<div class="btn-group flex justify-center gap-y-1">
-			{#each new Array(pageCount).fill(0) as _, i}
+			{#each new Array(Math.min(pageCount, maxPage)).fill(0) as _, i}
 				{@const p = i + 1}
-				<a href={`/manager${p === 1 ? '' : '?page=' + p}`} class="btn" class:btn-active={p === page}
-					>{p}</a
-				>
+				{@const last = p === maxPage}
+				{#if last}
+					<span class="self-end px-1">•••</span>
+					<a href={`/manager?page=${pageCount}`} class="btn" class:btn-active={pageCount === page}
+						>{pageCount}</a
+					>
+				{:else}
+					<a href={`/manager?page=${p}`} class="btn" class:btn-active={p === page}>{p}</a>
+				{/if}
 			{/each}
 		</div>
 	</div>
