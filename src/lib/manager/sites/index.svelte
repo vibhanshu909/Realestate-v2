@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts">
 	import formatDate from '$lib/date';
 	import { kconstants } from '$lib/kconstants';
 	import ManagerSiteTableHeader from '$lib/manager/ManagerSiteTableHeader.svelte';
@@ -6,9 +6,7 @@
 	import Pagination from '$lib/Pagination.svelte';
 	import { toCurrency } from '$lib/toCurrency';
 	import type { Site, User } from '@prisma/client';
-</script>
 
-<script lang="ts">
 	export let user: Omit<User, 'password'>;
 	export let siteCount: number;
 	export let sites: (Site & {

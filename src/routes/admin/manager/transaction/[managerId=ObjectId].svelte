@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts">
 	import formatDate from '$lib/date';
 	import { HistoryType } from '$lib/db';
 	import ManagerTransactionTableHeader from '$lib/manager/ManagerTransactionTableHeader.svelte';

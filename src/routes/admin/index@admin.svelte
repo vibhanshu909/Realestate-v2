@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script lang="ts">
 	import UserActionModals from '$lib/admin/UserActionModals.svelte';
 	import UserTableHeader from '$lib/admin/UserTableHeader.svelte';
 	import formatDate from '$lib/date';
@@ -23,7 +23,7 @@
 			<UserTableHeader />
 		</thead>
 		<tbody>
-			{#each managers as user (user.id)}
+			{#each managers as manager (manager.id)}
 				{@const {
 					createdAt,
 					username,
@@ -32,11 +32,11 @@
 					spent,
 					totalSitesCost,
 					totalReceivedAmount
-				} = user}
+				} = manager}
 				{@const balance = BigInt(totalReceivedAmount) - BigInt(spent)}
 				<tr>
 					<th class="actions bg-base-100 p-0">
-						<ModalButton htmlFor={user.id} />
+						<ModalButton htmlFor={manager.id} />
 					</th>
 					<td>{formatDate(createdAt)}</td>
 					<td>{username}</td>

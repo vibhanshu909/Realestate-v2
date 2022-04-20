@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script lang="ts">
 	import SiteActionModals from '$lib/admin/SiteActionModals.svelte';
 	import SiteTableHeader from '$lib/admin/SiteTableHeader.svelte';
 	import formatDate from '$lib/date';

@@ -41,7 +41,6 @@ export const post: RequestHandler = async ({ params, request, locals, url }) => 
 				} as any;
 			for (let item of formData.entries()) {
 				const [key, value] = item;
-				console.log(key, value);
 				switch (key) {
 					case 'note':
 						siteEntry.note = value;

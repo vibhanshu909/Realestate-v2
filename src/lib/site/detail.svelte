@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts">
 	import { session } from '$app/stores';
 	import { kconstants } from '$lib/kconstants';
 	import Pagination from '$lib/Pagination.svelte';

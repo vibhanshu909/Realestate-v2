@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts">
 	import Pagination from '$lib/Pagination.svelte';
 	import type { Activity } from '@prisma/client';
 	import { formatDistance } from 'date-fns';
