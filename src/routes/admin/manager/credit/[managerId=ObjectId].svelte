@@ -1,9 +1,8 @@
 <script lang="ts" context="module">
+	import { kconstants } from '$lib/kconstants';
 </script>
 
 <script lang="ts">
-	import { kconstants } from '$lib/kconstants';
-
 	export let username: string;
 	export let errors: string[] = [];
 	let submitting = false;

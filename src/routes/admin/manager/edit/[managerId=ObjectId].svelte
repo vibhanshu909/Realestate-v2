@@ -1,6 +1,3 @@
-<script lang="ts" context="module">
-</script>
-
 <script lang="ts">
 	export let username: string;
 	export let contact: bigint;

@@ -31,7 +31,7 @@
 					<tr>
 						<th class="bg-base-100">{index + 1} </th>
 						<td>{formatDate(createdAt)}</td>
-						<td>{amount}</td>
+						<td>{toCurrency(amount)}</td>
 						<td>{type}</td>
 						<td class={balance < 0 ? 'text-error' : 'text-accent'}>{toCurrency(balance)}</td>
 						<td>{note}</td>
