@@ -49,7 +49,7 @@
 				>
 					<fieldset disabled={submitting}>
 						<div class="flex w-full flex-col">
-							<Input name="mistri" />
+							<Input name="mistri" autofocus />
 							<div class="divider" />
 
 							<Input name="labour" />

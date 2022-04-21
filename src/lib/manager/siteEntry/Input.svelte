@@ -2,6 +2,7 @@
 	export let name: string;
 	export let label = name[0].toUpperCase() + name.slice(1);
 	export let quantityType: string = 'number';
+	export let autofocus = false;
 </script>
 
 <div class="form-control">
@@ -17,6 +18,7 @@
 		class="input input-bordered"
 		required
 		autocomplete="off"
+		{autofocus}
 	/>
 	<input
 		name={name + '.cost'}

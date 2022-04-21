@@ -7,7 +7,7 @@
 
 <div use:portal={'modal'}>
 	<input type="checkbox" id={site.id} class="modal-toggle" />
-	<label for={site.id} class="modal cursor-pointer">
+	<label for={site.id} class="modal">
 		<label class="modal-box relative ring ring-secondary" for="">
 			<div class="my-2 text-center">
 				<h1 class="text-2xl text-secondary">Actions</h1>

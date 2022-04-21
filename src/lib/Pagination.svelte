@@ -3,26 +3,42 @@
 </script>
 
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	export let pageCount: number;
 	export let page: number;
 	export let getHref: (p: number) => string;
+
+	let focusThis: HTMLAnchorElement;
+	let paginator: HTMLDivElement;
+	onMount(() => {
+		if (paginator && focusThis) {
+			const ob = new IntersectionObserver(
+				(elems, { unobserve, disconnect }) => {
+					if (elems[0].isIntersecting) {
+						const fn =
+							'scrollIntoViewIfNeeded' in focusThis ? 'scrollIntoViewIfNeeded' : 'scrollIntoView';
+						focusThis[fn]();
+						unobserve(elems[0].target);
+						disconnect();
+					}
+				},
+				{ threshold: [0.7] }
+			);
+			ob.observe(paginator);
+		}
+	});
 </script>
 
 {#if pageCount > 1}
-	<div class="flex items-center justify-center py-5">
-		<div class="btn-group flex justify-center gap-y-1">
-			{#each new Array(Math.min(pageCount, maxPage)).fill(0) as _, i}
+	<div class="flex flex-nowrap items-center justify-center py-5" bind:this={paginator}>
+		<div class="btn-group flex flex-nowrap overflow-auto">
+			{#each new Array(pageCount).fill(0) as _, i}
 				{@const p = i + 1}
-				{@const last = p === maxPage}
-				{#if last}
-					{#if page < pageCount - 1}
-						<span class="self-end px-1">•••</span>
-					{/if}
-					<a href={getHref(pageCount)} class="btn" class:btn-active={pageCount === page}
-						>{pageCount}</a
-					>
+				{#if p === page}
+					<a href={getHref(p)} class="btn btn-active" bind:this={focusThis}>{p}</a>
 				{:else}
-					<a href={getHref(p)} class="btn" class:btn-active={p === page}>{p}</a>
+					<a href={getHref(p)} class="btn">{p}</a>
 				{/if}
 			{/each}
 		</div>

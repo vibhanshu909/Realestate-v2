@@ -1,6 +1,7 @@
 import { MongoClient, ServerApiVersion } from 'mongodb';
 
 const uri =
+	process.env.DATABASE_URL ||
 	'mongodb+srv://realestate_developer:$pandey909@defaultcluster.35fsk.mongodb.net/realestate_dev?retryWrites=true&w=majority';
 const client = new MongoClient(uri, { serverApi: ServerApiVersion.v1, loggerLevel: 'debug' });
 

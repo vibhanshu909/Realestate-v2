@@ -1,9 +1,13 @@
 import { prisma } from '$lib/db';
 import { performActivity } from '$lib/performActivity';
+import type { User } from '@prisma/client';
 import type { RequestHandler } from '@sveltejs/kit';
 import bcrypt from 'bcryptjs';
 
 export const post: RequestHandler = async ({ request, locals }) => {
+	const {
+		user: { id: userId }
+	}: { user: User } = locals as any;
 	try {
 		const formData = await request.formData();
 		const currentPassword = formData.get('currentPassword') as string,
@@ -18,14 +22,14 @@ export const post: RequestHandler = async ({ request, locals }) => {
 			};
 		}
 
-		const user = await prisma.user.findFirst({ where: { id: locals?.user?.id } });
+		const user = await prisma.user.findFirst({ where: { id: userId } });
 		if (user) {
 			const isPasswordCorrect = await bcrypt.compare(currentPassword, user.password);
 			if (isPasswordCorrect) {
 				const hashedPassword = await bcrypt.hash(newPassword, 10);
 				await prisma.$transaction([
 					prisma.user.update({
-						where: { id: user?.id },
+						where: { id: user.id },
 						data: { password: hashedPassword }
 					}),
 					performActivity({

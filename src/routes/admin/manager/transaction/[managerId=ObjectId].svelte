@@ -1,10 +1,9 @@
 <script lang="ts">
 	import formatDate from '$lib/date';
-	import { HistoryType } from '$lib/db';
 	import ManagerTransactionTableHeader from '$lib/manager/ManagerTransactionTableHeader.svelte';
 	import Pagination from '$lib/Pagination.svelte';
 	import { toCurrency } from '$lib/toCurrency';
-	import type { History } from '@prisma/client';
+	import { HistoryType, type History } from '@prisma/client';
 
 	export let transactions: History[];
 	export let errors: string[];

@@ -57,6 +57,7 @@
 								class="input input-bordered"
 								required
 								autocomplete="off"
+								autofocus
 							/>
 						</div>
 						<div class="form-control">

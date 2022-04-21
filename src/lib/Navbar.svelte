@@ -4,7 +4,10 @@
 
 <div class="navbar sticky top-0 z-50 gap-3 bg-base-100 shadow-lg">
 	<div class="flex-1">
-		<a class="link link-hover text-xl normal-case" href="/">Real Estate</a>
+		<a
+			class="link link-hover text-xl normal-case"
+			href={user ? (user?.isAdmin ? '/admin' : '/manager') : '/'}>Real Estate</a
+		>
 	</div>
 	{#if user?.username}
 		<div class="flex-none">

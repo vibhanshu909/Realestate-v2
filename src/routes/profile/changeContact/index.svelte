@@ -63,6 +63,7 @@
 								maxlength="10"
 								enterkeyhint="done"
 								autocomplete="off"
+								autofocus
 							/>
 						</div>
 						<div class="form-control mt-6">
