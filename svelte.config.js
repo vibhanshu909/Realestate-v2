@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-vercel';
+import adapter from '@sveltejs/adapter-auto';
 import preprocess from 'svelte-preprocess';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -12,9 +12,7 @@ const config = {
 			enabled: false,
 			default: false
 		},
-		adapter: adapter({
-			edge: true
-		})
+		adapter: adapter()
 	}
 };
 
