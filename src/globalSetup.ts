@@ -1,13 +1,9 @@
-import { chromium, expect } from '@playwright/test';
+import { chromium, expect, type Page } from '@playwright/test';
 
-/**
- * @param {import('@playwright/test').Page} page
- * @param {{username: string, password: string}} credential
- */
-const loginFn = async (page, credential) => {
+const loginFn = async (page: Page, credential: { username: string; password: string }) => {
 	const { username, password } = credential;
 	await page.goto('https://localhost:4000');
-
+	await page.waitForSelector('input#username');
 	const usernameEl = page.locator('input#username');
 	const passwordEl = page.locator('input#password');
 	const submitBtnEl = page.locator('button[type="submit"]');
@@ -33,10 +29,17 @@ const loginFn = async (page, credential) => {
 	// Submit form
 	await submitBtnEl.click();
 };
-const createManager = async (page) => {
+
+const createManager = async (
+	page: Page,
+	manager: {
+		username: string;
+		password: string;
+	}
+) => {
 	await page.click('main a#create-manager');
 
-	expect(page.url()).toContain('/admin/manager/create');
+	await page.waitForSelector('input#username');
 
 	// Form
 	const usernameEl = page.locator('input#username');
@@ -61,11 +64,11 @@ const createManager = async (page) => {
 	expect(submitBtnEl).toBeEnabled();
 
 	// Filling data
-	await usernameEl.fill('temp_manager');
-	expect(usernameEl).toHaveValue('temp_manager');
+	await usernameEl.fill(manager.username);
+	expect(usernameEl).toHaveValue(manager.username);
 
-	await passwordEl.fill('temp@123');
-	expect(passwordEl).toHaveValue('temp@123');
+	await passwordEl.fill(manager.password);
+	expect(passwordEl).toHaveValue(manager.password);
 
 	await totalReceivedAmountEl.fill('0');
 	expect(totalReceivedAmountEl).toHaveValue('0');
@@ -77,7 +80,7 @@ const createManager = async (page) => {
 	await submitBtnEl.click();
 
 	// Wait for redirect
-
+	await page.waitForSelector('main table tbody tr:nth-child(1)');
 	expect(page.url()).toContain('/admin');
 
 	// Check if manager is created
@@ -94,14 +97,20 @@ const createManager = async (page) => {
 	// Balance
 	expect(await managerEl.locator('td:nth-child(9)').textContent()).toBe('0');
 };
-const createSite = async (page) => {
-	await page.goto('https://localhost:4000/admin/sites/1');
-	expect(page.url().match('/admin/sites/*')).toBeTruthy();
 
+const createSite = async (
+	page: Page,
+	manager: {
+		username: string;
+		password: string;
+	}
+) => {
+	await page.goto('https://localhost:4000/admin/sites/1');
+
+	await page.waitForSelector('a#create-site');
 	await page.click('a#create-site');
 
-	expect(page.url().endsWith('/admin/site/create')).toBe(true);
-
+	await page.waitForSelector('input#name');
 	// Form
 	const nameEl = page.locator('input#name');
 	const locationEl = page.locator('input#location');
@@ -144,8 +153,7 @@ const createSite = async (page) => {
 	await submitBtnEl.click();
 
 	// Wait for redirect
-
-	expect(page.url().endsWith('/admin/sites/1')).toBe(true);
+	await page.waitForSelector('main table > tbody > tr:nth-child(1)');
 
 	// Check if site is created
 	const siteEl = page.locator('main table > tbody > tr:nth-child(1)');
@@ -156,6 +164,7 @@ const createSite = async (page) => {
 	expect(await siteEl.locator('td:nth-child(8)').textContent()).toBe('0');
 	expect(await siteEl.locator('td:nth-child(9)').textContent()).toBe('0');
 };
+
 async function globalSetup() {
 	const browser = await chromium.launch({
 		args: ['--ignore-certificate-errors', '--disable-web-security']
@@ -165,10 +174,12 @@ async function globalSetup() {
 	await adminPage.context().storageState({ path: 'tests/admin/storageState.json' });
 
 	// Manager Page Login setup
-	const managerPage = await browser.newPage();
-	await createManager(adminPage);
-	await createSite(adminPage);
-	await loginFn(managerPage, { username: 'temp_manager', password: 'temp@123' });
+	const manager = { username: 'temp_manager', password: 'temp@123' };
+
+	await createManager(adminPage, manager);
+	await createSite(adminPage, manager);
+	const managerPage = await (await browser.newContext()).newPage();
+	await loginFn(managerPage, manager);
 	await managerPage.context().storageState({ path: 'tests/manager/storageState.json' });
 	await browser.close();
 }

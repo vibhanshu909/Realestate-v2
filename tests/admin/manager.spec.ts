@@ -4,7 +4,7 @@ test.use({ storageState: 'tests/admin/storageState.json' });
 
 test.describe('Admin::Manager Workflow', () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto('https://localhost:4000');
+		await page.goto('https://localhost:4000', { waitUntil: 'networkidle' });
 		expect(page.url()).toContain('/admin');
 	});
 
@@ -103,9 +103,7 @@ test.describe('Admin::Manager Workflow', () => {
 		await submitBtnEl.click();
 
 		// Wait for redirect
-
-		expect(page.url()).toContain('/admin');
-
+		await page.waitForSelector('main table > tbody > tr:nth-child(1)');
 		// Check if manager is credited
 		const managerEl = page.locator('main table > tbody > tr:nth-child(1)');
 		// Total Received Amount
@@ -121,7 +119,7 @@ test.describe('Admin::Manager Workflow', () => {
 
 		await page.click('a.manager-credit');
 
-		expect(page.url()).toContain('/admin/manager/credit/');
+		await page.waitForSelector('input#amount');
 
 		// Form
 		const amountEl = page.locator('input#amount');
@@ -149,9 +147,7 @@ test.describe('Admin::Manager Workflow', () => {
 		await submitBtnEl.click();
 
 		// Wait for redirect
-
-		expect(page.url()).toContain('/admin');
-
+		await page.waitForSelector('main table > tbody > tr:nth-child(1)');
 		// Check if manager is credited
 		const managerEl = page.locator('main table > tbody > tr:nth-child(1)');
 		// Total Received Amount
@@ -168,8 +164,8 @@ test.describe('Admin::Manager Workflow', () => {
 		await page.click('a.manager-history');
 
 		// Wait for redirect
-
-		expect(page.url()).toContain('/admin/manager/transaction/');
+		// await page.waitForNavigation();
+		await page.waitForSelector('main table > tbody > tr:nth-child(1)');
 
 		const historyEl = page.locator('main table > tbody > tr:nth-child(1)');
 		// Total Received Amount
@@ -200,7 +196,7 @@ test.describe('Admin::Manager Workflow', () => {
 
 		await page.click('a.manager-edit');
 
-		expect(page.url()).toContain('/admin/manager/edit/');
+		await page.waitForSelector('input#username');
 
 		// Form
 		const usernameEl = page.locator('input#username');
@@ -221,7 +217,7 @@ test.describe('Admin::Manager Workflow', () => {
 
 		// Wait for redirect
 
-		expect(page.url()).toContain('/admin');
+		await page.waitForSelector('main table > tbody > tr:nth-child(1) > td:nth-child(3)');
 
 		// Check if manager username is updated
 		expect(
@@ -234,7 +230,7 @@ test.describe('Admin::Manager Workflow', () => {
 
 		await page.click('a.manager-change-password');
 
-		expect(page.url()).toContain('/admin/manager/changePassword/');
+		await page.waitForSelector('input#newPassword');
 
 		// Form
 		const newPasswordEl = page.locator('input#newPassword');
@@ -262,7 +258,7 @@ test.describe('Admin::Manager Workflow', () => {
 
 		// Wait for redirect
 
-		expect(page.url().endsWith('/admin')).toBe(true);
+		await page.waitForSelector('main table > tbody > tr:nth-child(1) > td:nth-child(3)');
 
 		// Check if manager username is updated
 		expect(
@@ -278,7 +274,7 @@ test.describe('Admin::Manager Workflow', () => {
 		await page.click('a.delete-action-yes');
 		// Wait for redirect
 
-		expect(page.url()).toContain('/admin');
+		await page.waitForSelector('main table > tbody > tr:nth-child(1)');
 
 		// Check if manager is deleted
 		const managerEl = page.locator('main table > tbody > tr:nth-child(1)');

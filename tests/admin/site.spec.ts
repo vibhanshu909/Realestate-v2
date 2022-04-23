@@ -4,7 +4,7 @@ test.use({ storageState: 'tests/admin/storageState.json' });
 
 test.describe('Admin::Site Workflow', () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto('https://localhost:4000');
+		await page.goto('https://localhost:4000', { waitUntil: 'networkidle' });
 		await page.locator('a[href="/admin/sites/1"]').click();
 		expect(page.url().match('/admin/sites/*')).toBeTruthy();
 	});
@@ -14,7 +14,7 @@ test.describe('Admin::Site Workflow', () => {
 
 		await page.click('a#create-site');
 
-		expect(page.url().endsWith('/admin/site/create')).toBe(true);
+		await page.waitForSelector('input#name');
 
 		// Form
 		const nameEl = page.locator('input#name');
@@ -58,7 +58,7 @@ test.describe('Admin::Site Workflow', () => {
 		await submitBtnEl.click();
 
 		// Wait for redirect
-
+		await page.waitForSelector('main table > tbody > tr:nth-child(1)');
 		expect(page.url().endsWith('/admin/sites/1')).toBe(true);
 
 		// Check if site is created
@@ -72,14 +72,12 @@ test.describe('Admin::Site Workflow', () => {
 	});
 
 	test('View Site Detail', async ({ page }) => {
-		expect(page.url().match('/admin/sites/*')).toBeTruthy();
+		// expect(page.url().match('/admin/sites/*')).toBeTruthy();
 
 		await page.click('main table > tbody > tr:nth-child(1) > th.actions');
 
 		await page.click('a.site-view');
-
-		expect(page.url().match('/admin/site/detail/*')).toBeTruthy();
-
+		await page.waitForSelector('main > div.stats > div.stat:nth-child(1) > div.stat-value');
 		expect(
 			await page.locator('main > div.stats > div.stat:nth-child(1) > div.stat-value').textContent()
 		).toBe('new site');
@@ -173,15 +171,16 @@ test.describe('Admin::Site Workflow', () => {
 	});
 
 	test('Delete Site', async ({ page }) => {
-		expect(page.url().match('/admin/sites/*')).toBeTruthy();
+		// expect(page.url().match('/admin/sites/*')).toBeTruthy();
 
 		await page.click('main table > tbody > tr:nth-child(1) > th.actions');
 
 		await page.click('a.site-delete');
 		expect(page.locator('a.delete-action-yes').first()).toBeVisible();
 		await page.click('a.delete-action-yes');
-		// Wait for redirect
 
+		// Wait for redirect
+		await page.waitForSelector('main table > tbody > tr:nth-child(1)');
 		// Check if site is deleted
 		const siteEl = page.locator('main table > tbody > tr:nth-child(1)');
 		// Username
