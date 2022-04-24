@@ -8,6 +8,11 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
+		vite: () => ({
+			build: {
+				target: ['es2020']
+			}
+		}),
 		prerender: {
 			enabled: false,
 			default: false
