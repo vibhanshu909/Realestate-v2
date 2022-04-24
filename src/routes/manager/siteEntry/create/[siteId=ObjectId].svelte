@@ -1,10 +1,44 @@
+<script lang="ts" context="module">
+	export type Payload =
+		| { [key in keyof SitesTotal]: Omit<SiteEntryItem, 'quantity'> }
+		| {
+				other: Omit<SiteEntryItem, 'quantity'>;
+				other2: Omit<SiteEntryItem, 'quantity'>;
+		  };
+</script>
+
 <script lang="ts">
+	import { kconstants } from '$lib/kconstants';
 	import Input from '$lib/manager/siteEntry/Input.svelte';
-	import type { Site } from '@prisma/client';
+	import { toCurrency } from '$lib/toCurrency';
+	import type { Site, SiteEntryItem, SitesTotal } from '@prisma/client';
 	export let site: Site;
 	export let errors: string[] = [];
+
+	const payload: Payload = {} as any;
+
 	let submitting = false;
 	let form: HTMLFormElement;
+	const total: {
+		total: bigint;
+		managerSpentAmount: bigint;
+	} = {
+		managerSpentAmount: 0n,
+		total: 0n
+	} as any;
+	function calc(e: CustomEvent<{ name: keyof typeof payload; cost: bigint; paid: boolean }>) {
+		const { name, ...rest } = e.detail;
+		payload[name] = { ...rest };
+	}
+	$: {
+		total.total = 0n;
+		total.managerSpentAmount = 0n;
+
+		Object.keys(payload).forEach((name) => {
+			total.total += payload[name].cost;
+			payload[name].paid && (total.managerSpentAmount += payload[name].cost);
+		});
+	}
 </script>
 
 <div class="hero min-h-screen bg-base-200">
@@ -49,37 +83,37 @@
 				>
 					<fieldset disabled={submitting}>
 						<div class="flex w-full flex-col">
-							<Input name="mistri" autofocus />
+							<Input name="mistri" on:calc={calc} autofocus />
 							<div class="divider" />
 
-							<Input name="labour" />
+							<Input name="labour" on:calc={calc} />
 							<div class="divider" />
 
-							<Input name="eit" />
+							<Input name="eit" on:calc={calc} />
 							<div class="divider" />
 
-							<Input name="morang" />
+							<Input name="morang" on:calc={calc} />
 							<div class="divider" />
 
-							<Input name="baalu" />
+							<Input name="baalu" on:calc={calc} />
 							<div class="divider" />
 
-							<Input name="githi" />
+							<Input name="githi" on:calc={calc} />
 							<div class="divider" />
 
-							<Input name="cement" />
+							<Input name="cement" on:calc={calc} />
 							<div class="divider" />
 
-							<Input name="saria" />
+							<Input name="saria" on:calc={calc} />
 							<div class="divider" />
 
-							<Input name="dust" />
+							<Input name="dust" on:calc={calc} />
 							<div class="divider" />
 
-							<Input name="other" quantityType="text" />
+							<Input name="other" on:calc={calc} quantityType="text" />
 							<div class="divider" />
 
-							<Input name="other2" label="Other 2" quantityType="text" />
+							<Input name="other2" on:calc={calc} label="Other 2" quantityType="text" />
 							<div class="divider" />
 
 							<div class="form-control">
@@ -97,6 +131,18 @@
 							</div>
 
 							<div class="form-control mt-6">
+								<div class="my-3 flex flex-col gap-1">
+									<div>
+										<span>Manager Spent Amount({kconstants.currencySymbol}): </span><span
+											class="text-lg text-accent">{toCurrency(total.managerSpentAmount)}</span
+										>
+									</div>
+									<div>
+										<span>Total Cost({kconstants.currencySymbol}): </span><span
+											>{toCurrency(total.total)}</span
+										>
+									</div>
+								</div>
 								<button class="btn btn-primary" class:loading={submitting} type="submit"
 									>Create</button
 								>

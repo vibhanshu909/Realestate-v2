@@ -1,3 +1,4 @@
+import { calc } from '$lib/calc';
 import { HistoryType, prisma } from '$lib/db';
 import { performActivity } from '$lib/performActivity';
 import type { Prisma, User } from '@prisma/client';
@@ -39,52 +40,7 @@ export const post: RequestHandler = async ({ params, request, locals, url }) => 
 					managerSpentAmount: 0n,
 					total: 0n
 				} as any;
-			for (let item of formData.entries()) {
-				const [key, value] = item;
-				switch (key) {
-					case 'note':
-						siteEntry.note = value;
-						break;
-					default:
-						const [field, subfield] = key.split('.');
-						!siteEntry[field] && (siteEntry[field] = {});
-						switch (field) {
-							case 'other':
-							case 'other2':
-								switch (subfield) {
-									case 'paid':
-										siteEntry[field].paid = true;
-										siteEntry.managerSpentAmount += siteEntry[field].cost;
-										break;
-									case 'cost':
-										siteEntry[field].cost = BigInt(value);
-										siteEntry.total += siteEntry[field].cost;
-										site.total[field] += siteEntry[field].cost;
-										break;
-									case 'quantity':
-										siteEntry[field].quantity = value;
-										break;
-								}
-								break;
-							default:
-								switch (subfield) {
-									case 'paid':
-										siteEntry[field].paid = true;
-										siteEntry.managerSpentAmount += siteEntry[field].cost;
-										break;
-									case 'cost':
-										siteEntry[field].cost = BigInt(value);
-										siteEntry.total += siteEntry[field].cost;
-										site.total[field].cost += siteEntry[field].cost;
-										break;
-									case 'quantity':
-										siteEntry[field].quantity = BigInt(value);
-										site.total[field].quantity += siteEntry[field].quantity;
-										break;
-								}
-						}
-				}
-			}
+			calc(formData, siteEntry, site);
 			if (siteEntry.total === 0n) {
 				return {
 					status: 400,
