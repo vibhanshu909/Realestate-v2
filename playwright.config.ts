@@ -6,7 +6,7 @@ const config: PlaywrightTestConfig = {
 	use: {
 		ignoreHTTPSErrors: true,
 		launchOptions: {
-			slowMo: 1000
+			slowMo: 2000
 		}
 	},
 	webServer: {
