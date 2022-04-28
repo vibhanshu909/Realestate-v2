@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { session } from '$app/stores';
+	import formatDate from '$lib/date';
 	import { kconstants } from '$lib/kconstants';
 	import Pagination from '$lib/Pagination.svelte';
 	import { toCurrency } from '$lib/toCurrency';
@@ -112,14 +113,27 @@
 		<tbody>
 			<tr>
 				<th />
+				<th />
 				{#each new Array(11) as _}
 					<th>Quantity</th>
 					<th>Price({kconstants.currencySymbol})</th>
 				{/each}
 			</tr>
 			{#each entries as entry, index}
-				{@const { mistri, labour, eit, morang, baalu, githi, cement, saria, dust, other, other2 } =
-					entry}
+				{@const {
+					createdAt,
+					mistri,
+					labour,
+					eit,
+					morang,
+					baalu,
+					githi,
+					cement,
+					saria,
+					dust,
+					other,
+					other2
+				} = entry}
 				{@const items = {
 					mistri,
 					labour,
@@ -137,6 +151,9 @@
 					<th class="bg-base-100">
 						{index + 1}
 					</th>
+					<td>
+						{formatDate(createdAt)}
+					</td>
 					{#each Object.entries(items) as [_, item]}
 						<td class={item.paid ? '!bg-accent !text-accent-content' : ''}>{item.quantity}</td>
 						<td class={item.paid ? '!bg-accent !text-accent-content' : ''}

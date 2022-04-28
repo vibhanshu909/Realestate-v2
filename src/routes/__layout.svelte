@@ -15,10 +15,10 @@
 	<footer class="bg-base-300 p-5">
 		<h1 class="text-center">&copy; {new Date().getFullYear()} Codemitter Technology Pvt. Ltd.</h1>
 	</footer>
+	<div class="portal" use:createPortal={'modal'} />
 	<div class="modal" class:modal-open={$navigating}>
 		<div class="modal-box">
 			<button class="btn loading h-10 w-full">Loading</button>
 		</div>
 	</div>
-	<div class="portal" use:createPortal={'modal'} />
 </div>

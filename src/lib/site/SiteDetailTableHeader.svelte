@@ -5,6 +5,7 @@
 
 <tr>
 	<th />
+	<th class="text-center">Created At</th>
 	<th colspan="2" class="text-center">Mistri</th>
 	<th colspan="2" class="text-center">Labour</th>
 	<th colspan="2" class="text-center">Eit</th>
