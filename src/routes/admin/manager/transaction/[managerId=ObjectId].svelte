@@ -3,7 +3,13 @@
 	import ManagerTransactionTableHeader from '$lib/manager/ManagerTransactionTableHeader.svelte';
 	import Pagination from '$lib/Pagination.svelte';
 	import { toCurrency } from '$lib/toCurrency';
-	import { HistoryType, type History } from '@prisma/client';
+	import type { History } from '@prisma/client';
+	// TODO: Sync HistoryType
+	// import { HistoryType } from '$lib/db';
+	enum HistoryType {
+		CREDIT = 'CREDIT',
+		DEBIT = 'DEBIT'
+	}
 
 	export let transactions: History[];
 	export let errors: string[];
